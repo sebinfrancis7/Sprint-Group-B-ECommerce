@@ -1,5 +1,6 @@
 package com.sprint.ecommerce.entity;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -28,4 +29,5 @@ public class Orders {
 	private Seller seller;
 	@ManyToMany
 	private List<Product> product;
+	private LocalDate deliveryDate;
 }
