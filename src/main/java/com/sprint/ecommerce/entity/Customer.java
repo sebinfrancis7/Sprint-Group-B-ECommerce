@@ -16,17 +16,21 @@ import lombok.Setter;
 public class Customer {
 
 	@Id
-	private int cust_id;
+	@Column(name="CUST_ID")
+	private int custid;
 	
-	private String cust_name;
+	@Column(name="CUST_NAME")
+	private String custname;
 	
 	@Column(unique=true)
 	private String username;
 	
 	private String password;
 	
-	private String cust_address;
+	private String address;
 	
-	private List<Product> cust_wishlist;
+	private List<Product> wishlist;
+	
+	private List<Orders> custorders;
 	
 }
