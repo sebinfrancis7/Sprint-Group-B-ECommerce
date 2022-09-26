@@ -1,5 +1,7 @@
 package com.sprint.ecommerce.entity;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -26,4 +28,5 @@ public class Product {
 	private String category;
 	private double price;
 	private double rating;
+	private List<Feedback> feedbacks;
 }
