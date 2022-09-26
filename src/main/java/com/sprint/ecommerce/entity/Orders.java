@@ -1,7 +1,9 @@
 package com.sprint.ecommerce.entity;
 
+import java.time.LocalDate;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
@@ -17,11 +19,13 @@ import lombok.Setter;
 @NoArgsConstructor @AllArgsConstructor
 public class Orders {
 	@Id
-	private int order_id;
+	@Column(name = "order_id")
+	private int orderid;
 	@OneToOne
 	private Customer customer;
 	@OneToOne
 	private Seller seller;
 	@ManyToMany
 	private List<Product> product;
+	private LocalDate deliveryDate;
 }
