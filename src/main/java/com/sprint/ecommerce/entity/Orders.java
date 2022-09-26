@@ -15,7 +15,7 @@ import lombok.Setter;
 @Entity
 @Getter @Setter
 @NoArgsConstructor @AllArgsConstructor
-public class Order {
+public class Orders {
 	@Id
 	private int order_id;
 	@OneToOne
