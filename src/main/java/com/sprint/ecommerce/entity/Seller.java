@@ -18,13 +18,13 @@ public class Seller {
 	
 	@Id
 	@Column(name="SELLER_ID")
-	private int sellerid;
+	private int sellerId;
 	
 	@Column(name="SELLER_NAME")
-	private String sellername; 
+	private String sellerName; 
 	
 	@Column(unique = true)
-	private String username;
+	private String userName;
 	
 	private String password;
 	

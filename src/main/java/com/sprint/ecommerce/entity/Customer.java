@@ -16,14 +16,14 @@ import lombok.Setter;
 public class Customer {
 
 	@Id
-	@Column(name="CUST_ID")
-	private int custid;
+	@Column(name="cust_id")
+	private int custId;
 	
-	@Column(name="CUST_NAME")
-	private String custname;
+	@Column(name="cust_name")
+	private String custName;
 	
 	@Column(unique=true)
-	private String username;
+	private String userName;
 	
 	private String password;
 	
@@ -31,6 +31,6 @@ public class Customer {
 	
 	private List<Product> wishlist;
 	
-	private List<Orders> custorders;
+	private List<Orders> custOrders;
 	
 }

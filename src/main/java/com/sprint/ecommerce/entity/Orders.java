@@ -2,6 +2,7 @@ package com.sprint.ecommerce.entity;
 
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
@@ -13,11 +14,14 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Getter @Setter
-@NoArgsConstructor @AllArgsConstructor
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Orders {
 	@Id
-	private int order_id;
+	@Column(name = "order_id")
+	private int orderId;
 	@OneToOne
 	private Customer customer;
 	@OneToOne
