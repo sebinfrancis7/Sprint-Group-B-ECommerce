@@ -10,6 +10,7 @@ import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
 import lombok.Setter;
 
 @Entity
@@ -24,8 +25,14 @@ public class Feedback {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "feedback_id")
 	private int feedbackId;
+	@NonNull
 	private Customer customer;
+	@NonNull
 	private Seller seller;
+	@NonNull
 	private Product product;
-
+	@NonNull
+	private int rating;
+	@NonNull
+	private String feedback;
 }

@@ -18,6 +18,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+//@RequiredArgsConstructor
 public class Product {
 	@Id
 	@Column(name = "prod_id")
