@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -25,7 +27,6 @@ public class Customer {
 
 	@Id
 	@Column(name = "cust_id")
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int custId;
 
 	@NonNull
@@ -42,8 +43,9 @@ public class Customer {
 	@NonNull
 	private String address;
 
+	@ManyToMany
 	private List<Product> wishlist;
-
+	@OneToMany
 	private List<Orders> custOrders;
 
 }

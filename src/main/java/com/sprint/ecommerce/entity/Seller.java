@@ -4,7 +4,10 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -12,25 +15,27 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Getter @Setter
-@AllArgsConstructor @NoArgsConstructor
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Seller {
-	
+
 	@Id
-	@Column(name="SELLER_ID")
+	@Column(name = "seller_id")
 	private int sellerId;
-	
-	@Column(name="SELLER_NAME")
-	private String sellerName; 
-	
+
+	@Column(name = "seller_name")
+	private String sellerName;
+
 	@Column(unique = true)
 	private String userName;
-	
+
 	private String password;
-	
+
 	private double rating;
-	
-	private List<Product> product; 
-	
-	
+
+	@OneToMany
+	private List<Product> product;
+
 }
