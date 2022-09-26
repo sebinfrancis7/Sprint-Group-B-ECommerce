@@ -15,11 +15,11 @@ import com.sprint.ecommerce.service.CustomerService;
 public class CustomerController {
 	
 	@Autowired
-	private CustomerService cServ;
+	private CustomerService custServ;
 	
-	@PostMapping
+	@PostMapping("/save/customer")
 	private ResponseEntity<String> saveCustomer(@RequestBody Customer c) throws AlreadyExistsException {
-		Customer c1 = cServ.addCustomer(c);
+		Customer c1 = custServ.addCustomer(c);
 		return new ResponseEntity<String>("Customer added successfully.", HttpStatus.CREATED);
 	}
 

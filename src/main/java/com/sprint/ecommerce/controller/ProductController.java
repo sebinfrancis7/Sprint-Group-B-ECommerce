@@ -16,7 +16,7 @@ public class ProductController {
 	@Autowired
 	private ProductService productServ;
 
-	@PostMapping("/save/saveproduct")
+	@PostMapping("/save/product")
 	public ResponseEntity<String> saveProduct(@RequestBody Product product) throws AlreadyExistsException {
 		Product prod = productServ.saveProduct(product);
 		return new ResponseEntity<String>("Product Saved Successfully", HttpStatus.OK);
