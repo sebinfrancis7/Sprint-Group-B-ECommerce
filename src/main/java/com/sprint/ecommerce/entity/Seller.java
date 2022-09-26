@@ -1,5 +1,8 @@
 package com.sprint.ecommerce.entity;
 
+import java.util.List;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
@@ -12,12 +15,22 @@ import lombok.Setter;
 @Getter @Setter
 @AllArgsConstructor @NoArgsConstructor
 public class Seller {
+	
 	@Id
-	int seller_id;
-	String seller_name; 
-	String username;
-	String password;
-	double rating;
-	Product product; 	
+	@Column(name="SELLER_ID")
+	private int sellerid;
+	
+	@Column(name="SELLER_NAME")
+	private String sellername; 
+	
+	@Column(unique = true)
+	private String username;
+	
+	private String password;
+	
+	private double rating;
+	
+	private List<Product> product; 
+	
 	
 }
