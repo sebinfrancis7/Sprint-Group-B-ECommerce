@@ -15,4 +15,5 @@ public class GlobalExceptionHandler {
 	public ResponseEntity<String> alreadyExists(AlreadyExistsException alreadyExists) {
 		return new ResponseEntity<String>("Already Exists Exception", HttpStatus.CONFLICT);
 	}
+	
 }

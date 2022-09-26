@@ -6,7 +6,6 @@ import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 
 import lombok.AllArgsConstructor;
@@ -27,7 +26,7 @@ public class Orders {
 	private Customer customer;
 	@OneToOne
 	private Seller seller;
-	@ManyToMany
-	private List<Product> product;
+	@OneToOne
+	private Product product;
 	private LocalDate deliveryDate;
 }
