@@ -1,11 +1,14 @@
 package com.sprint.ecommerce.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
 import com.sprint.ecommerce.entity.Customer;
+import com.sprint.ecommerce.entity.Product;
 import com.sprint.ecommerce.exception.AlreadyExistsException;
+import com.sprint.ecommerce.exception.NotFoundException;
 
 @Service
 public interface CustomerService {
@@ -13,5 +16,11 @@ public interface CustomerService {
 	Customer addCustomer(Customer c) throws AlreadyExistsException;
 
 	List<Customer> getCustomers();
+
+	void deleteCustomerById(int custId) throws NotFoundException;
+	
+	void updateCustomer(int custId, Customer c);
+
+	Optional<Customer> getCustomerById(int custId);
 
 }
