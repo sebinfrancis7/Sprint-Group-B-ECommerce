@@ -41,14 +41,15 @@ public class FeedbackServiceImpl implements FeedbackService {
 		Orders o = ordersRepo.findById(feedback.getOrder().getOrderId()).get();
 		feedback.setOrder(o);
 		Feedback response = feedbackRepo.save(feedback);
-//		double rating = productRepo.findProductRating(feedback.getOrder().getProduct().getProdId());
-//		int count = productRepo.findProductCount(feedback.getOrder().getProduct().getProdId());
-//		System.out.println("rc" + rating + " " + count);
-//		double feedbackRating = feedback.getRating();
-//		double newfbRating = (feedbackRating + rating) / (count + 1);
-//		Product p1 = productRepo.findById(feedback.getOrder().getProduct().getProdId()).get();
-//		p1.setRating(newfbRating);
-//		productRepo.save(p1);
+		double totalRating = feedbackRepo.findTotalRatingOfProduct(feedback.getOrder().getProduct());
+		int totalCount = feedbackRepo.findCountOfProductFeedback(feedback.getOrder().getProduct());
+
+		double newRating = (totalRating) / (totalCount);
+		newRating = Math.round(newRating * 100.0) / 100.0;
+		System.out.println(totalCount + " " + totalRating + " " + newRating);
+		Product p1 = productRepo.findById(feedback.getOrder().getProduct().getProdId()).get();
+		p1.setRating(newRating);
+		productRepo.save(p1);
 		// set rating
 		// find sum of rating of all product with given id by custom query
 		// find count of product by custom query
