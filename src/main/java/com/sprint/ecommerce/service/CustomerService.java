@@ -19,7 +19,7 @@ public interface CustomerService {
 
 	void deleteCustomerById(int custId) throws NotFoundException;
 	
-	void updateCustomer(int custId, Customer c);
+	void updateCustomer(int custId, Customer c) throws NotFoundException;
 
 	Optional<Customer> getCustomerById(int custId);
 

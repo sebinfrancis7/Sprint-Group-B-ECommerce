@@ -48,7 +48,10 @@ public class CustomerServiceImpl implements CustomerService {
 	
 	
 	@Override
-	public void updateCustomer(int custId, Customer c) {
+	public void updateCustomer(int custId, Customer c) throws NotFoundException {
+		if(!cRepo.existsById(custId)) {
+			throw new NotFoundException();
+		}
 		Customer c1 = cRepo.getById(custId);
 		if(!c.getCustName().isEmpty())
 			c1.setCustName(c.getCustName());

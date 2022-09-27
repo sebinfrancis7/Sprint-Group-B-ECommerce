@@ -49,7 +49,7 @@ public class CustomerController {
 	}
 	
 	@PatchMapping("/update/customer")
-	public ResponseEntity<Object> updateCustomer(@RequestBody Customer c){
+	public ResponseEntity<Object> updateCustomer(@RequestBody Customer c) throws NotFoundException{
 		custServ.updateCustomer(c.getCustId(),c);
 		return new ResponseEntity<Object>("Customer updated successfully", HttpStatus.OK);
 	} 
