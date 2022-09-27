@@ -1,14 +1,23 @@
 package com.sprint.ecommerce.controller;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.sprint.ecommerce.entity.Orders;
 import com.sprint.ecommerce.entity.Seller;
 import com.sprint.ecommerce.exception.AlreadyExistsException;
+import com.sprint.ecommerce.exception.NotFoundException;
 import com.sprint.ecommerce.service.SellerService;
 
 @RestController
@@ -21,6 +30,31 @@ public class SellerController {
 	public ResponseEntity<String> saveSeller(@RequestBody Seller seller) throws AlreadyExistsException{
 		Seller s1 = sellerServ.saveSeller(seller);
 		return new ResponseEntity<String>("Seller Saved Successfully",HttpStatus.OK);
+	}
+	
+	@GetMapping("/sellers")
+	public ResponseEntity<List<Seller>> getSellers() {
+		List<Seller> list = sellerServ.getAllSellers();
+		return new ResponseEntity<List<Seller>>(list, HttpStatus.OK);
+	}
+	
+	@GetMapping("/seller/{sellerId}")
+	public ResponseEntity<Optional<Seller>> getSellerById(@PathVariable int sellerId) throws NotFoundException{
+		Optional<Seller> seller = sellerServ.getSellerById(sellerId);
+		return new ResponseEntity<Optional<Seller>>(seller,HttpStatus.OK);
+	}
+	
+	@DeleteMapping("/delete/seller/{sellerId}")
+	public ResponseEntity<String> deleteSellerById(@PathVariable int sellerId) throws NotFoundException{
+		sellerServ.deleteSeller(sellerId);
+		return new ResponseEntity<String>("Seller Deleted Successfully",HttpStatus.ACCEPTED);
+	}
+	
+	@PatchMapping("/update/seller")
+	public ResponseEntity<String> update(@RequestBody Seller seller) throws NotFoundException {
+		sellerServ.updateSeller(seller);
+		return new ResponseEntity<String>("Seller Updated Successfully",HttpStatus.ACCEPTED);
+		
 	}
 	
 }
