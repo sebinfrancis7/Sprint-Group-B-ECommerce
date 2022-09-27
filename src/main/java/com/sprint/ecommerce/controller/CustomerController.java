@@ -1,17 +1,22 @@
 package com.sprint.ecommerce.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sprint.ecommerce.entity.Customer;
+import com.sprint.ecommerce.entity.Product;
 import com.sprint.ecommerce.exception.AlreadyExistsException;
+import com.sprint.ecommerce.exception.NotFoundException;
 import com.sprint.ecommerce.service.CustomerService;
 
 @RestController
@@ -31,5 +36,21 @@ public class CustomerController {
 		Customer c1 = custServ.addCustomer(c);
 		return new ResponseEntity<String>("Customer added successfully.", HttpStatus.CREATED);
 	}
-
+	@GetMapping("/customer/{custId}")
+	private ResponseEntity<Optional<Customer>> getCustomerById(@PathVariable("custId") int custId){
+		Optional<Customer> list = custServ.getCustomerById(custId);
+		return new ResponseEntity<Optional<Customer>>(list, HttpStatus.OK);
+	}
+	
+	@PostMapping("/delete/customer/{custId}")
+	public ResponseEntity<Object> deleteById(@PathVariable("custId") int custId) throws NotFoundException{
+		custServ.deleteCustomerById(custId);
+		return new ResponseEntity<Object>("Customer deleted successfully", HttpStatus.OK);
+	}
+	
+	@PatchMapping("/update/customer")
+	public ResponseEntity<Object> updateCustomer(@RequestBody Customer c) throws NotFoundException{
+		custServ.updateCustomer(c.getCustId(),c);
+		return new ResponseEntity<Object>("Customer updated successfully", HttpStatus.OK);
+	} 
 }
