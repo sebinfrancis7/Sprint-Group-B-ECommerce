@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.sprint.ecommerce.entity.Feedback;
 import com.sprint.ecommerce.entity.Orders;
+import com.sprint.ecommerce.entity.Product;
 import com.sprint.ecommerce.exception.NotFoundException;
 import com.sprint.ecommerce.repository.CustomerRepository;
 import com.sprint.ecommerce.repository.FeedbackRepository;
@@ -40,7 +41,14 @@ public class FeedbackServiceImpl implements FeedbackService {
 		Orders o = ordersRepo.findById(feedback.getOrder().getOrderId()).get();
 		feedback.setOrder(o);
 		Feedback response = feedbackRepo.save(feedback);
-
+//		double rating = productRepo.findProductRating(feedback.getOrder().getProduct().getProdId());
+//		int count = productRepo.findProductCount(feedback.getOrder().getProduct().getProdId());
+//		System.out.println("rc" + rating + " " + count);
+//		double feedbackRating = feedback.getRating();
+//		double newfbRating = (feedbackRating + rating) / (count + 1);
+//		Product p1 = productRepo.findById(feedback.getOrder().getProduct().getProdId()).get();
+//		p1.setRating(newfbRating);
+//		productRepo.save(p1);
 		// set rating
 		// find sum of rating of all product with given id by custom query
 		// find count of product by custom query

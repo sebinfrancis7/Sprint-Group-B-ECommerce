@@ -37,7 +37,7 @@ public class Feedback {
 	private Orders order;
 
 	@NonNull
-	private int rating;
+	private double rating;
 
 	@NonNull
 	private String feedback;
