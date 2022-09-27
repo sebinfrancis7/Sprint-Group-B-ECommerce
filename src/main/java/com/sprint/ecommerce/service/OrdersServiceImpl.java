@@ -37,7 +37,8 @@ public class OrdersServiceImpl implements OrdersService{
 		ordersRepo.save(orders);	
 	}
 	@Override
-	public void delete(int id) {
+	public void delete(int id) throws NotFoundException {
+		if(ordersRepo.findById(id).get()==null) throw new NotFoundException();
 		ordersRepo.delete(ordersRepo.findById(id).get());
 		
 	}
