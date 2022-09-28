@@ -12,14 +12,14 @@ import com.sprint.ecommerce.exception.NotFoundException;
 import com.sprint.ecommerce.repository.SellerRepository;
 
 @Service
-public class SellerServiceImpl implements SellerService{
+public class SellerServiceImpl implements SellerService {
 
 	@Autowired
 	private SellerRepository sellerRepo;
-	
+
 	@Override
 	public Seller saveSeller(Seller seller) throws AlreadyExistsException {
-		if(sellerRepo.existsById(seller.getSellerId())) {
+		if (sellerRepo.existsById(seller.getSellerId())) {
 			throw new AlreadyExistsException();
 		}
 		Seller s1 = sellerRepo.save(seller);
@@ -33,8 +33,8 @@ public class SellerServiceImpl implements SellerService{
 	}
 
 	@Override
-	public Optional<Seller> getSellerById(int sellerId) throws NotFoundException{
-		if(!sellerRepo.existsById(sellerId)) {
+	public Optional<Seller> getSellerById(int sellerId) throws NotFoundException {
+		if (!sellerRepo.existsById(sellerId)) {
 			throw new NotFoundException();
 		}
 		Optional<Seller> seller = sellerRepo.findById(sellerId);
@@ -42,8 +42,8 @@ public class SellerServiceImpl implements SellerService{
 	}
 
 	@Override
-	public Seller deleteSeller(int sellerId) throws NotFoundException{
-		if(!sellerRepo.existsById(sellerId)) {
+	public Seller deleteSeller(int sellerId) throws NotFoundException {
+		if (!sellerRepo.existsById(sellerId)) {
 			throw new NotFoundException();
 		}
 		sellerRepo.deleteById(sellerId);
@@ -52,16 +52,25 @@ public class SellerServiceImpl implements SellerService{
 
 	@Override
 	public Seller updateSeller(Seller seller) throws NotFoundException {
-		if(!sellerRepo.existsById(seller.getSellerId())) {
+		if (!sellerRepo.existsById(seller.getSellerId())) {
 			throw new NotFoundException();
 		}
 		Seller s1 = sellerRepo.save(seller);
 		return s1;
 	}
 
-
-	
-	
-	
+	@Override
+	public String loginSeller(Seller seller) throws NotFoundException {
+		if (sellerRepo.existsById(seller.getSellerId())) {
+			Seller s1 = sellerRepo.findById(seller.getSellerId()).get();
+			if (seller.getUserName().equals(s1.getUserName()) && seller.getPassword().equals(s1.getPassword())) {
+				return "Seller logged in";
+			} else {
+				return "Invalid Credentials";
+			}
+		} else {
+			throw new NotFoundException();
+		}
+	}
 
 }
