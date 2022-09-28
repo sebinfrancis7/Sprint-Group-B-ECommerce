@@ -44,6 +44,12 @@ public class OrdersController {
 		ordersServ.delete(id);
 		return new ResponseEntity<String>("Deleted successfully",HttpStatus.ACCEPTED);
 	}
+	@GetMapping("/order/seller/{id}")
+	public ResponseEntity<List<Orders>> getOrdersBySeller(@PathVariable int id){
+		List<Orders> ordersBySeller = ordersServ.getOrdersBySeller(id);
+		return new ResponseEntity<List<Orders>>(ordersBySeller,HttpStatus.OK);
+	}
+	
 	
 
 }

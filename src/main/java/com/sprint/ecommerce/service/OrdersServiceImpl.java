@@ -42,5 +42,11 @@ public class OrdersServiceImpl implements OrdersService{
 		ordersRepo.delete(ordersRepo.findById(id).get());
 		
 	}
+	@Override
+	public List<Orders> getOrdersBySeller(int id) {
+		List<Orders> findBySeller = ordersRepo.findBySeller(id);
+		return findBySeller;
+	}
+	
 
 }
