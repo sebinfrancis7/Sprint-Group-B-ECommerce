@@ -36,27 +36,16 @@ public class FeedbackServiceImpl implements FeedbackService {
 
 	@Override
 	public Feedback addFeedback(Feedback feedback) {
+		// save feedback
 		LocalDate date = LocalDate.now();
 		feedback.setDateCreated(date);
 		Orders o = ordersRepo.findById(feedback.getOrder().getOrderId()).get();
 		feedback.setOrder(o);
 		Feedback response = feedbackRepo.save(feedback);
-		double totalRating = feedbackRepo.findTotalRatingOfProduct(feedback.getOrder().getProduct());
-		int totalCount = feedbackRepo.findCountOfProductFeedback(feedback.getOrder().getProduct());
 
-		double newRating = (totalRating) / (totalCount);
-		newRating = Math.round(newRating * 100.0) / 100.0;
-		System.out.println(totalCount + " " + totalRating + " " + newRating);
-		Product p1 = productRepo.findById(feedback.getOrder().getProduct().getProdId()).get();
-		p1.setRating(newRating);
-		productRepo.save(p1);
-		// set rating
-		// find sum of rating of all product with given id by custom query
-		// find count of product by custom query
-		// rating = sum/count;
-//		int productID = feedback.getOrder().getProduct().getProdId();
-//		Product p = productRepo.findById(productID).get();
-//		
+		// update rating
+		updateRating(feedback);
+
 		return response;
 	}
 
@@ -70,7 +59,10 @@ public class FeedbackServiceImpl implements FeedbackService {
 		// TODO Auto-generated method stub
 		if (feedbackRepo.findById(id).isEmpty())
 			throw new NotFoundException();
+
+		Feedback feedback = feedbackRepo.findById(id).get();
 		feedbackRepo.deleteById(id);
+		updateRating(feedback);
 		return "Feedback deleted successfully";
 	}
 
@@ -82,6 +74,23 @@ public class FeedbackServiceImpl implements FeedbackService {
 		Feedback f = feedbackRepo.findById(id).get();
 		f.setRating(feedback.getRating());
 		f.setFeedback(feedback.getFeedback());
-		return feedbackRepo.save(f);
+		Feedback response = feedbackRepo.save(f);
+		updateRating(f);
+
+		return response;
+	}
+
+	@Override
+	public void updateRating(Feedback feedback) {
+		// TODO Auto-generated method stub
+		double totalRating = feedbackRepo.findTotalRatingOfProduct(feedback.getOrder().getProduct());
+		int totalCount = feedbackRepo.findCountOfProductFeedback(feedback.getOrder().getProduct());
+		double newRating = totalCount == 0 ? 0 : ((totalRating) / (totalCount));
+		newRating = Math.round(newRating * 100.0) / 100.0;
+		System.out.println(totalCount + " " + totalRating + " " + newRating);
+		Product p1 = productRepo.findById(feedback.getOrder().getProduct().getProdId()).get();
+		p1.setRating(newRating);
+		productRepo.save(p1);
+
 	}
 }

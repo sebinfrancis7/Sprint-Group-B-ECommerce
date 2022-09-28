@@ -11,7 +11,7 @@ import com.sprint.ecommerce.entity.Product;
 @Repository
 public interface FeedbackRepository extends JpaRepository<Feedback, Integer> {
 
-	@Query("select sum(f.rating) from Feedback f join Orders o on f.order = o.orderId where o.product =:prod")
+	@Query("select coalesce(sum(f.rating),0) from Feedback f join Orders o on f.order = o.orderId where o.product =:prod")
 	public double findTotalRatingOfProduct(@Param("prod") Product prod);
 
 	@Query("select count(*) from Feedback f join Orders o on f.order = o.orderId where o.product =:prod")
