@@ -6,7 +6,6 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import com.sprint.ecommerce.entity.Customer;
-import com.sprint.ecommerce.entity.Product;
 import com.sprint.ecommerce.exception.AlreadyExistsException;
 import com.sprint.ecommerce.exception.NotFoundException;
 
@@ -18,9 +17,11 @@ public interface CustomerService {
 	List<Customer> getCustomers();
 
 	void deleteCustomerById(int custId) throws NotFoundException;
-	
+
 	void updateCustomer(int custId, Customer c) throws NotFoundException;
 
 	Optional<Customer> getCustomerById(int custId);
+
+	String loginCustomer(Customer customer) throws NotFoundException;
 
 }
