@@ -9,6 +9,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import lombok.AllArgsConstructor;
@@ -41,6 +43,7 @@ public class Customer {
 	private String userName;
 
 	@NonNull
+	@JsonProperty(access = Access.WRITE_ONLY)
 	private String password;
 
 	@NonNull

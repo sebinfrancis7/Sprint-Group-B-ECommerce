@@ -21,13 +21,13 @@ public class CustomerServiceImpl implements CustomerService {
 
 	@Autowired
 	private CustomerRepository cRepo;
-	
+
 	@Autowired
 	private ProductRepository pRepo;
-	
+
 	@Autowired
 	private SellerRepository sRepo;
-	
+
 	@Autowired
 	private OrdersRepository oRepo;
 
@@ -80,15 +80,15 @@ public class CustomerServiceImpl implements CustomerService {
 //		if(!c.getCustOrders().isEmpty()) {
 //			c1.setCustOrders(c.getCustOrders());
 //		}
-			
+
 		cRepo.save(c1);
 	}
 
 	@Override
 	public String loginCustomer(Customer customer) throws NotFoundException {
-		if(cRepo.existsById(customer.getCustId())) {
-			Customer c1  = cRepo.findById(customer.getCustId()).get();
-			if(customer.getUserName().equals(c1.getUserName()) && customer.getPassword().equals(c1.getPassword())) {
+		if (cRepo.existsById(customer.getCustId())) {
+			Customer c1 = cRepo.findById(customer.getCustId()).get();
+			if (customer.getUserName().equals(c1.getUserName()) && customer.getPassword().equals(c1.getPassword())) {
 				return "Customer logged in";
 			} else {
 				return "Invalid Credentials";
@@ -97,27 +97,25 @@ public class CustomerServiceImpl implements CustomerService {
 			throw new NotFoundException();
 		}
 	}
-			
+
 	@Override
 	public String placeOrder(int custId, Orders o) {
 
-		if(cRepo.existsById(custId))
-		{
+		if (cRepo.existsById(custId)) {
 			Customer c = cRepo.findById(custId).get();
-			Orders o1 = new Orders(o.getOrderId(),o.getCustomer(),o.getSeller(),o.getProduct(),o.getDeliveryDate());
+			Orders o1 = new Orders(o.getOrderId(), o.getCustomer(), o.getSeller(), o.getProduct(), o.getDeliveryDate());
 			oRepo.save(o1);
 			c.addToCustOrders(o1);
 			cRepo.save(c);
 			return "Order placed successfully";
-		}
-		else {
+		} else {
 			return "Customer with given id does not exist";
 		}
 	}
 
 	@Override
 	public String addWishlist(int custId, Product p) {
-		
+
 //		Customer c = cRepo.getById(custId);
 //		List<Product> p1 =c.getWishlist();
 //		p1.addAll(p);
@@ -128,16 +126,14 @@ public class CustomerServiceImpl implements CustomerService {
 //			// TODO Auto-generated catch block
 //			e.printStackTrace();
 //		}
-		
-		if(cRepo.existsById(custId))
-		{
+
+		if (cRepo.existsById(custId)) {
 			Customer c = cRepo.findById(custId).get();
 			Product p1 = pRepo.findById(p.getProdId()).get();
 			c.addToWishlist(p1);
 			cRepo.save(c);
 			return "wishlist updated successfully";
-		}
-		else {
+		} else {
 			return "Customer with given id does not exist";
 		}
 	}
