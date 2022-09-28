@@ -4,11 +4,12 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -23,6 +24,8 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @RequiredArgsConstructor
+@JsonIdentityInfo(scope = Customer.class, generator = ObjectIdGenerators.PropertyGenerator.class, property = "custId")
+
 public class Customer {
 
 	@Id
@@ -45,11 +48,11 @@ public class Customer {
 
 	@ManyToMany
 	private List<Product> wishlist;
-	
+
 	@OneToMany
 	private List<Orders> custOrders;
-	
-	public void addToWishlist(Product p){
+
+	public void addToWishlist(Product p) {
 		wishlist.add(p);
 	}
 
