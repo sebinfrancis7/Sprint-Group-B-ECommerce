@@ -45,7 +45,16 @@ public class Customer {
 
 	@ManyToMany
 	private List<Product> wishlist;
+	
 	@OneToMany
 	private List<Orders> custOrders;
+	
+	public void addToWishlist(Product p){
+		wishlist.add(p);
+	}
+
+	public void addToCustOrders(Orders o) {
+		custOrders.add(o);
+	}
 
 }

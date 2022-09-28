@@ -6,6 +6,8 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import com.sprint.ecommerce.entity.Customer;
+import com.sprint.ecommerce.entity.Orders;
+import com.sprint.ecommerce.entity.Product;
 import com.sprint.ecommerce.exception.AlreadyExistsException;
 import com.sprint.ecommerce.exception.NotFoundException;
 
@@ -23,5 +25,10 @@ public interface CustomerService {
 	Optional<Customer> getCustomerById(int custId);
 
 	String loginCustomer(Customer customer) throws NotFoundException;
+
+	String placeOrder(int custId, Orders o);
+
+	String addWishlist(int custId, Product p);
+
 
 }

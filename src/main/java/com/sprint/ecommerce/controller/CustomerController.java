@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sprint.ecommerce.entity.Customer;
+import com.sprint.ecommerce.entity.Orders;
 import com.sprint.ecommerce.entity.Product;
 import com.sprint.ecommerce.exception.AlreadyExistsException;
 import com.sprint.ecommerce.exception.NotFoundException;
@@ -53,4 +54,16 @@ public class CustomerController {
 		custServ.updateCustomer(c.getCustId(),c);
 		return new ResponseEntity<Object>("Customer updated successfully", HttpStatus.OK);
 	} 
+	
+	@PostMapping("/customer/{custId}/placeorder")
+	public ResponseEntity<String> placeOrder(@PathVariable int custId, @RequestBody Orders o){
+		String s = custServ.placeOrder(custId,o);
+		return new ResponseEntity<String>(s, HttpStatus.OK);
+	}
+	
+	@PostMapping("/customer/{custId}/wishlist")
+	public ResponseEntity<String> addWishlist( int custId, @RequestBody Product p){
+		String s = custServ.addWishlist(custId,p);
+		return new ResponseEntity<String>(s, HttpStatus.OK);
+	}
 }
