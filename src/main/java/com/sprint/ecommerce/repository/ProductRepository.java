@@ -1,5 +1,7 @@
 package com.sprint.ecommerce.repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -14,4 +16,7 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
 //
 //	@Query("SELECT COUNT(p.rating) FROM Product p WHERE p.prodId =:prodId")
 //	public int findProductCount(@Param("prodId") int prodId);
+
+	@Query("SELECT p FROM Product p where p.category =:cat")
+	public List<Product> findProductsByCategory(@Param("cat") String category);
 }

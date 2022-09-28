@@ -56,4 +56,10 @@ public class ProductController {
 		productServ.deleteProduct(id);
 		return new ResponseEntity<String>("Product deleted successfully", HttpStatus.OK);
 	}
+
+	@GetMapping("/product/category/{category}")
+	public ResponseEntity<List<Product>> getProdByCategory(@PathVariable String category) throws Exception {
+		List<Product> products = productServ.getProductsByCategory(category);
+		return new ResponseEntity<List<Product>>(products, HttpStatus.OK);
+	}
 }

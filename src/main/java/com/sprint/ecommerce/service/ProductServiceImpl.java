@@ -64,4 +64,13 @@ public class ProductServiceImpl implements ProductService {
 
 	}
 
+	@Override
+	public List<Product> getProductsByCategory(String category) throws NotFoundException {
+		List<Product> list = productRepo.findProductsByCategory(category);
+		if (list.size() < 1) {
+			throw new NotFoundException();
+		}
+		return list;
+	}
+
 }
