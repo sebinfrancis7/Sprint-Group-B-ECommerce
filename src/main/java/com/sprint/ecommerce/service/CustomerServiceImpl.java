@@ -1,7 +1,5 @@
 package com.sprint.ecommerce.service;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -9,11 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.sprint.ecommerce.entity.Customer;
-
 import com.sprint.ecommerce.entity.Orders;
 import com.sprint.ecommerce.entity.Product;
-import com.sprint.ecommerce.entity.Seller;
-
 import com.sprint.ecommerce.exception.AlreadyExistsException;
 import com.sprint.ecommerce.exception.NotFoundException;
 import com.sprint.ecommerce.repository.CustomerRepository;
@@ -77,14 +72,14 @@ public class CustomerServiceImpl implements CustomerService {
 			c1.setPassword(c.getPassword());
 		if (!c.getAddress().isEmpty())
 			c1.setAddress(c.getAddress());
-		if (!c.getWishlist().isEmpty())
-			c1.setWishlist(c.getWishlist());
-		if (c.getCustOrders().isEmpty())
-			c1.setCustOrders(c.getCustOrders());
-
-		if(!c.getCustOrders().isEmpty()) {
-			c1.setCustOrders(c.getCustOrders());
-		}
+//		if (!c.getWishlist().isEmpty())
+//			c1.setWishlist(c.getWishlist());
+//		if (c.getCustOrders().isEmpty())
+//			c1.setCustOrders(c.getCustOrders());
+//
+//		if(!c.getCustOrders().isEmpty()) {
+//			c1.setCustOrders(c.getCustOrders());
+//		}
 			
 		cRepo.save(c1);
 	}
