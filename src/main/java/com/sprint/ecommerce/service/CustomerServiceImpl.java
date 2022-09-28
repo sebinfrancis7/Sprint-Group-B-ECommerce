@@ -1,5 +1,7 @@
 package com.sprint.ecommerce.service;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -7,15 +9,32 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.sprint.ecommerce.entity.Customer;
+
+import com.sprint.ecommerce.entity.Orders;
+import com.sprint.ecommerce.entity.Product;
+import com.sprint.ecommerce.entity.Seller;
+
 import com.sprint.ecommerce.exception.AlreadyExistsException;
 import com.sprint.ecommerce.exception.NotFoundException;
 import com.sprint.ecommerce.repository.CustomerRepository;
+import com.sprint.ecommerce.repository.OrdersRepository;
+import com.sprint.ecommerce.repository.ProductRepository;
+import com.sprint.ecommerce.repository.SellerRepository;
 
 @Service
 public class CustomerServiceImpl implements CustomerService {
 
 	@Autowired
 	private CustomerRepository cRepo;
+	
+	@Autowired
+	private ProductRepository pRepo;
+	
+	@Autowired
+	private SellerRepository sRepo;
+	
+	@Autowired
+	private OrdersRepository oRepo;
 
 	@Override
 	public Customer addCustomer(Customer c) throws AlreadyExistsException {
@@ -63,6 +82,10 @@ public class CustomerServiceImpl implements CustomerService {
 		if (c.getCustOrders().isEmpty())
 			c1.setCustOrders(c.getCustOrders());
 
+		if(!c.getCustOrders().isEmpty()) {
+			c1.setCustOrders(c.getCustOrders());
+		}
+			
 		cRepo.save(c1);
 	}
 
@@ -77,6 +100,50 @@ public class CustomerServiceImpl implements CustomerService {
 			}
 		} else {
 			throw new NotFoundException();
+		}
+	}
+			
+	@Override
+	public String placeOrder(int custId, Orders o) {
+
+		if(cRepo.existsById(custId))
+		{
+			Customer c = cRepo.findById(custId).get();
+			Orders o1 = new Orders(o.getOrderId(),o.getCustomer(),o.getSeller(),o.getProduct(),o.getDeliveryDate());
+			oRepo.save(o1);
+			c.addToCustOrders(o1);
+			cRepo.save(c);
+			return "Order placed successfully";
+		}
+		else {
+			return "Customer with given id does not exist";
+		}
+	}
+
+	@Override
+	public String addWishlist(int custId, Product p) {
+		
+//		Customer c = cRepo.getById(custId);
+//		List<Product> p1 =c.getWishlist();
+//		p1.addAll(p);
+//		c.setWishlist(p1);
+//		try {
+//			this.updateCustomer(custId, c);
+//		} catch (NotFoundException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+		
+		if(cRepo.existsById(custId))
+		{
+			Customer c = cRepo.findById(custId).get();
+			Product p1 = pRepo.findById(p.getProdId()).get();
+			c.addToWishlist(p1);
+			cRepo.save(c);
+			return "wishlist updated successfully";
+		}
+		else {
+			return "Customer with given id does not exist";
 		}
 	}
 

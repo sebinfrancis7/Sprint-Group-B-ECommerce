@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.sprint.ecommerce.entity.Product;
 import com.sprint.ecommerce.entity.Seller;
 import com.sprint.ecommerce.exception.AlreadyExistsException;
 import com.sprint.ecommerce.exception.NotFoundException;
@@ -64,6 +65,7 @@ public class SellerServiceImpl implements SellerService {
 		return s1;
 	}
 
+<<<<<<< Updated upstream
 	@Override
 	public String loginSeller(Seller seller) throws NotFoundException {
 		if (sellerRepo.existsById(seller.getSellerId())) {
@@ -78,4 +80,6 @@ public class SellerServiceImpl implements SellerService {
 		}
 	}
 
+=======
+>>>>>>> Stashed changes
 }
