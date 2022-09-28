@@ -54,7 +54,18 @@ public class SellerController {
 	public ResponseEntity<String> update(@RequestBody Seller seller) throws NotFoundException {
 		sellerServ.updateSeller(seller);
 		return new ResponseEntity<String>("Seller Updated Successfully",HttpStatus.ACCEPTED);
-		
 	}
+	
+	@GetMapping("seller/ratingAbove/{rating}")
+	public ResponseEntity<List<Seller>> filterSellerAboveRating(@PathVariable double rating) throws NotFoundException{
+		List<Seller> sellers = sellerServ.filterAboveRating(rating);
+		return new ResponseEntity<List<Seller>>(sellers,HttpStatus.OK);
+	}
+	
+//	@GetMapping("seller/sellerName/{sellerName}")
+//	public ResponseEntity<List<Seller>> getSellerBySellerName(@PathVariable String sellerName) throws NotFoundException{
+//		List<Seller> seller = sellerServ.getSellerBySellerName(sellerName);
+//		return new ResponseEntity<List<Seller>>(seller,HttpStatus.OK);
+//	}
 	
 }

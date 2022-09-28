@@ -20,5 +20,9 @@ public interface SellerService {
 	Seller updateSeller(Seller seller) throws NotFoundException;
 
 	String loginSeller(Seller seller) throws NotFoundException;
+	
+	List<Seller> filterAboveRating(double rating) throws NotFoundException;
+	
+//	List<Seller> getSellerBySellerName(String sellerName) throws NotFoundException;
 
 }

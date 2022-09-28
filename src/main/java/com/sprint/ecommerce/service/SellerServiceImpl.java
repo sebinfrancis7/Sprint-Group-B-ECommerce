@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.sprint.ecommerce.entity.Product;
 import com.sprint.ecommerce.entity.Seller;
 import com.sprint.ecommerce.exception.AlreadyExistsException;
 import com.sprint.ecommerce.exception.NotFoundException;
@@ -23,8 +24,7 @@ public class SellerServiceImpl implements SellerService {
 			throw new AlreadyExistsException();
 		}
 		List<String> userNameList = sellerRepo.uniqueUserName();
-		if (userNameList.contains(seller.getUserName())) {
-			System.out.println("User Name Already Exists");
+		if(userNameList.contains(seller.getUserName())) {
 			throw new AlreadyExistsException();
 		}
 		Seller s1 = sellerRepo.save(seller);
@@ -77,5 +77,23 @@ public class SellerServiceImpl implements SellerService {
 			throw new NotFoundException();
 		}
 	}
+
+	@Override
+	public List<Seller> filterAboveRating(double rating) throws NotFoundException {
+		List<Seller> list = sellerRepo.findAboveRating(rating);
+		if (list.size() < 1) {
+			throw new NotFoundException();
+		}
+		return list;
+	}
+	
+//	@Override
+//	public List<Seller> getSellerBySellerName(String sellerName) throws NotFoundException {
+//		List<Seller> list = sellerRepo.findBySellerName(sellerName);
+//		if (list.size() < 1) {
+//			throw new NotFoundException();
+//		}
+//		return list;
+//	}
 
 }
