@@ -22,6 +22,11 @@ public class SellerServiceImpl implements SellerService {
 		if (sellerRepo.existsById(seller.getSellerId())) {
 			throw new AlreadyExistsException();
 		}
+		List<String> userNameList = sellerRepo.uniqueUserName();
+		if(userNameList.contains(seller.getUserName())) {
+			System.out.println("User Name Already Exists");
+			throw new AlreadyExistsException();
+		}
 		Seller s1 = sellerRepo.save(seller);
 		return s1;
 	}

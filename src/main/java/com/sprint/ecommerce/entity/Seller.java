@@ -9,6 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,7 +32,7 @@ public class Seller {
 
 	@Column(unique = true)
 	private String userName;
-
+	
 	private String password;
 
 	private double rating;
@@ -39,3 +41,4 @@ public class Seller {
 	private List<Product> product;
 
 }
+
