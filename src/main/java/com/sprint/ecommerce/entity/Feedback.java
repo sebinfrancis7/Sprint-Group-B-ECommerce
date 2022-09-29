@@ -8,6 +8,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+
+import org.hibernate.validator.constraints.Length;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -37,9 +41,12 @@ public class Feedback {
 	private Orders order;
 
 	@NonNull
+	@Min(value = 1)
+	@Max(value = 5)
 	private double rating;
 
 	@NonNull
+	@Length(min = 1, max = 50)
 	private String feedback;
 
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.sprint.ecommerce.entity.Feedback;
+import com.sprint.ecommerce.entity.FeedbackResponse;
 import com.sprint.ecommerce.entity.Orders;
 import com.sprint.ecommerce.entity.Product;
 import com.sprint.ecommerce.entity.Seller;
@@ -113,5 +114,38 @@ public class FeedbackServiceImpl implements FeedbackService {
 
 		s.setRating(updatedSellerRating);
 		sellerRepo.save(s);
+	}
+
+	@Override
+	public Feedback getFeedbackByOrderId(int id) throws NotFoundException {
+		// TODO Auto-generated method stub
+		if (!ordersRepo.existsById(id))
+			throw new NotFoundException("order not found");
+		return feedbackRepo.getFeedbackFromOrderID(id);
+	}
+
+	@Override
+	public List<FeedbackResponse> getFeedbackByCustomerId(int id) throws NotFoundException {
+		// TODO Auto-generated method stub
+		if (!customerRepo.existsById(id))
+			throw new NotFoundException("order not found");
+		return feedbackRepo.getFeedbackFromCustomerID(id);
+	}
+
+	@Override
+	public List<FeedbackResponse> getFeedbackByProductId(int id) throws NotFoundException {
+		// TODO Auto-generated method stub
+		if (!productRepo.existsById(id))
+			throw new NotFoundException("order not found");
+		return feedbackRepo.getFeedbackFromProductID(id);
+
+	}
+
+	@Override
+	public Feedback getFeedbackById(int id) throws NotFoundException {
+		// TODO Auto-generated method stub
+		if (!feedbackRepo.existsById(id))
+			throw new NotFoundException();
+		return feedbackRepo.findById(id).get();
 	}
 }
