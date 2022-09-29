@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.sprint.ecommerce.entity.Customer;
 import com.sprint.ecommerce.entity.Orders;
 import com.sprint.ecommerce.entity.Product;
+import com.sprint.ecommerce.entity.Seller;
 import com.sprint.ecommerce.exception.AlreadyExistsException;
 import com.sprint.ecommerce.exception.NotFoundException;
 import com.sprint.ecommerce.repository.CustomerRepository;
@@ -30,6 +31,8 @@ public class CustomerServiceImpl implements CustomerService {
 
 	@Autowired
 	private OrdersRepository oRepo;
+	@Autowired
+	private OrdersService ordersServ;
 
 	@Override
 	public Customer addCustomer(Customer c) throws AlreadyExistsException {
@@ -99,15 +102,30 @@ public class CustomerServiceImpl implements CustomerService {
 	}
 
 	@Override
-	public String placeOrder(int custId, Orders o) {
+	public String placeOrder(int custId, Orders o) throws AlreadyExistsException {
 
 		if (cRepo.existsById(custId)) {
 			Customer c = cRepo.findById(custId).get();
-			Orders o1 = new Orders(o.getOrderId(), o.getCustomer(), o.getSeller(), o.getProduct(), o.getDeliveryDate());
-			oRepo.save(o1);
-			c.addToCustOrders(o1);
-			cRepo.save(c);
-			return "Order placed successfully";
+			if(sRepo.existsById(o.getSeller().getSellerId())) {
+				Seller s1 = sRepo.findById(o.getSeller().getSellerId()).get();
+				if(s1.getProduct().contains(o.getProduct())) {
+					//Orders o1 = new Orders(o.getOrderId(), o.getCustomer(), o.getSeller(), o.getProduct(), o.getDeliveryDate());
+					ordersServ.saveOrder(o);
+					c.addToCustOrders(o);
+					cRepo.save(c);
+					return "Order placed successfully";
+				}
+				else {
+					return "Seller "+ o.getSeller().getSellerId() + " doesn't sell "+ o.getProduct().getProdId();
+				}
+			} else {
+				return "Seller " + o.getSeller().getSellerId() + " doesn't exist";
+			}
+////			Orders o1 = new Orders(o.getOrderId(), o.getCustomer(), o.getSeller(), o.getProduct(), o.getDeliveryDate());
+////			oRepo.save(o1);
+//			c.addToCustOrders(o1);
+//			cRepo.save(c);
+//			return "Order placed successfully";
 		} else {
 			return "Customer with given id does not exist";
 		}

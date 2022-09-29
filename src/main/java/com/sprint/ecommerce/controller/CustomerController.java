@@ -59,7 +59,7 @@ public class CustomerController {
 	}
 
 	@PostMapping("/customer/{custId}/placeorder")
-	public ResponseEntity<String> placeOrder(@PathVariable int custId, @RequestBody Orders o) {
+	public ResponseEntity<String> placeOrder(@PathVariable int custId, @RequestBody Orders o) throws AlreadyExistsException {
 		String s = custServ.placeOrder(custId, o);
 		return new ResponseEntity<String>(s, HttpStatus.OK);
 	}

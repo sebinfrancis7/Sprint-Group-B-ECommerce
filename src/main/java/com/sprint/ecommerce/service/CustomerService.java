@@ -26,7 +26,7 @@ public interface CustomerService {
 
 	String loginCustomer(Customer customer) throws NotFoundException;
 
-	String placeOrder(int custId, Orders o);
+	String placeOrder(int custId, Orders o) throws AlreadyExistsException;
 
 	String addWishlist(int custId, Product p);
 

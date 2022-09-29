@@ -1,6 +1,7 @@
 package com.sprint.ecommerce.entity;
 
 import java.util.List;
+import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -22,6 +23,21 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 public class Product {
+	@Override
+	public int hashCode() {
+		return Objects.hash(prodId);
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Product other = (Product) obj;
+		return prodId == other.prodId;
+	}
 	@Id
 	@Column(name = "prod_id")
 	private int prodId;

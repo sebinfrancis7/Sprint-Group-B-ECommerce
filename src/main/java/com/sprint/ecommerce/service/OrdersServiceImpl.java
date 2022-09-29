@@ -27,7 +27,7 @@ public class OrdersServiceImpl implements OrdersService {
 	@Override
 	public Orders saveOrder(Orders orders) throws AlreadyExistsException {
 		if (ordersRepo.existsById(orders.getOrderId()))
-			throw new AlreadyExistsException();
+			throw new AlreadyExistsException("Order already exists");
 		return ordersRepo.save(orders);
 	}
 
@@ -42,21 +42,21 @@ public class OrdersServiceImpl implements OrdersService {
 		if (findById.isPresent()) {
 			return findById.get();
 		} else
-			throw new NotFoundException();
+			throw new NotFoundException("Order not found");
 	}
 
 	@Override
 	public void update(Orders orders) throws NotFoundException {
 		Orders order1 = ordersRepo.findById(orders.getOrderId()).get();
 		if (order1 == null)
-			throw new NotFoundException();
+			throw new NotFoundException("Order not found");
 		ordersRepo.save(orders);
 	}
 
 	@Override
 	public void delete(int id) throws NotFoundException {
 		if (ordersRepo.findById(id).get() == null)
-			throw new NotFoundException();
+			throw new NotFoundException("Order not found");
 		ordersRepo.delete(ordersRepo.findById(id).get());
 
 	}
@@ -69,7 +69,7 @@ public class OrdersServiceImpl implements OrdersService {
 		return findBySeller;
 		}
 		else {
-			throw new NotFoundException();
+			throw new NotFoundException("No orders from seller " +id);
 		}
 	}
 
@@ -80,7 +80,7 @@ public class OrdersServiceImpl implements OrdersService {
 			List<Orders> findByCustomer = ordersRepo.findByCustomer(s1);
 			return findByCustomer;
 		} else {
-			throw new NotFoundException();
+			throw new NotFoundException("No orders from customer " +id);
 		}
 	}
 

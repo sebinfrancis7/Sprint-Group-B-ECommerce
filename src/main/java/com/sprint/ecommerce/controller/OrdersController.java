@@ -23,11 +23,11 @@ public class OrdersController {
 	@Autowired
 	private OrdersService ordersServ;
 
-	@PostMapping("/save/order")
-	public ResponseEntity<String> saveOrder(@RequestBody Orders orders) throws AlreadyExistsException {
-		ordersServ.saveOrder(orders);
-		return new ResponseEntity<String>("Order saved successfully", HttpStatus.ACCEPTED);
-	}
+//	@PostMapping("/save/order")
+//	public ResponseEntity<String> saveOrder(@RequestBody Orders orders) throws AlreadyExistsException {
+//		ordersServ.saveOrder(orders);
+//		return new ResponseEntity<String>("Order saved successfully", HttpStatus.ACCEPTED);
+//	}
 
 	@GetMapping("/order")
 	public ResponseEntity<List<Orders>> getAllOrders() {
