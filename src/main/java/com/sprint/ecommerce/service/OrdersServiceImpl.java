@@ -6,10 +6,12 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.sprint.ecommerce.entity.Customer;
 import com.sprint.ecommerce.entity.Orders;
 import com.sprint.ecommerce.entity.Seller;
 import com.sprint.ecommerce.exception.AlreadyExistsException;
 import com.sprint.ecommerce.exception.NotFoundException;
+import com.sprint.ecommerce.repository.CustomerRepository;
 import com.sprint.ecommerce.repository.OrdersRepository;
 import com.sprint.ecommerce.repository.SellerRepository;
 
@@ -19,6 +21,8 @@ public class OrdersServiceImpl implements OrdersService {
 	private OrdersRepository ordersRepo;
 	@Autowired
 	private SellerRepository sellerRepo;
+	@Autowired
+	private CustomerRepository customerRepo;
 
 	@Override
 	public Orders saveOrder(Orders orders) throws AlreadyExistsException {
@@ -58,10 +62,26 @@ public class OrdersServiceImpl implements OrdersService {
 	}
 
 	@Override
-	public List<Orders> getOrdersBySeller(int id) {
+	public List<Orders> getOrdersBySeller(int id) throws NotFoundException {
+		if(sellerRepo.existsById(id)) {
 		Seller s1 = sellerRepo.findById(id).get();
 		List<Orders> findBySeller = ordersRepo.findBySeller(s1);
 		return findBySeller;
+		}
+		else {
+			throw new NotFoundException();
+		}
+	}
+
+	@Override
+	public List<Orders> getOrdersByCustomer(int id) throws NotFoundException {
+		if (customerRepo.existsById(id)) {
+			Customer s1 = customerRepo.findById(id).get();
+			List<Orders> findByCustomer = ordersRepo.findByCustomer(s1);
+			return findByCustomer;
+		} else {
+			throw new NotFoundException();
+		}
 	}
 
 }
