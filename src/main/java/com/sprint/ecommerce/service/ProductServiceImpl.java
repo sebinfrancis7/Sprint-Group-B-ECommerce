@@ -22,7 +22,7 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public Product saveProduct(Product product) throws AlreadyExistsException {
 		if (productRepo.existsById(product.getProdId())) {
-			throw new AlreadyExistsException();
+			throw new AlreadyExistsException("Product already exists");
 		}
 		Product p1 = productRepo.save(product);
 		return p1;
@@ -30,11 +30,13 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public Optional<Product> getProductById(int id) throws NotFoundException, Exception {
-		Optional<Product> product1 = productRepo.findById(id);
-		if (product1 == null) {
-			throw new NotFoundException();
+
+		if (productRepo.existsById(id)) {
+			Optional<Product> product1 = productRepo.findById(id);
+			return product1;
+		} else {
+			throw new NotFoundException("Product not found");
 		}
-		return product1;
 	}
 
 	@Override
@@ -42,7 +44,7 @@ public class ProductServiceImpl implements ProductService {
 		List<Product> productList = productRepo.findAll().stream()
 				.sorted(Comparator.comparingDouble(Product::getRating).reversed()).collect(Collectors.toList());
 		if (productList.size() < 1) {
-			throw new NotFoundException();
+			throw new NotFoundException("No products found");
 		}
 		return productList;
 	}
@@ -54,7 +56,7 @@ public class ProductServiceImpl implements ProductService {
 			product.setRating(p1.getRating());
 			productRepo.save(product);
 		} else {
-			throw new NotFoundException();
+			throw new NotFoundException("Product not found");
 		}
 
 	}
@@ -64,7 +66,7 @@ public class ProductServiceImpl implements ProductService {
 		if (productRepo.existsById(id)) {
 			productRepo.deleteById(id);
 		} else {
-			throw new NotFoundException();
+			throw new NotFoundException("Product not found");
 		}
 
 	}
@@ -74,7 +76,7 @@ public class ProductServiceImpl implements ProductService {
 		List<Product> list = productRepo.findProductsByCategory(category).stream()
 				.sorted(Comparator.comparingDouble(Product::getRating).reversed()).collect(Collectors.toList());
 		if (list.size() < 1) {
-			throw new NotFoundException();
+			throw new NotFoundException("No products found for " + category + " category");
 		}
 		return list;
 	}
