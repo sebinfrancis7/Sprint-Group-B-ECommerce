@@ -20,7 +20,7 @@ public interface FeedbackService {
 
 	void updateProductRating(Feedback feedback);
 
-	void updateSellerRating(int id, double rating);
+	void updateSellerRating(int id);
 
 	Feedback getFeedbackByOrderId(int id) throws NotFoundException;
 
