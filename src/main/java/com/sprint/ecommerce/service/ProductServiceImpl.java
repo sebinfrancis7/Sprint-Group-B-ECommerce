@@ -1,7 +1,9 @@
 package com.sprint.ecommerce.service;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,7 +39,8 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public List<Product> getAllProducts() throws AlreadyExistsException, Exception {
-		List<Product> productList = productRepo.findAll();
+		List<Product> productList = productRepo.findAll().stream()
+				.sorted(Comparator.comparingDouble(Product::getRating).reversed()).collect(Collectors.toList());
 		if (productList.size() < 1) {
 			throw new NotFoundException();
 		}
@@ -47,6 +50,8 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public void updateProduct(Product product) throws NotFoundException, Exception {
 		if (productRepo.existsById(product.getProdId())) {
+			Product p1 = productRepo.findById(product.getProdId()).get();
+			product.setRating(p1.getRating());
 			productRepo.save(product);
 		} else {
 			throw new NotFoundException();
@@ -66,7 +71,8 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public List<Product> getProductsByCategory(String category) throws NotFoundException {
-		List<Product> list = productRepo.findProductsByCategory(category);
+		List<Product> list = productRepo.findProductsByCategory(category).stream()
+				.sorted(Comparator.comparingDouble(Product::getRating).reversed()).collect(Collectors.toList());
 		if (list.size() < 1) {
 			throw new NotFoundException();
 		}
