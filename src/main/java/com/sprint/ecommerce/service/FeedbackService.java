@@ -8,9 +8,9 @@ import com.sprint.ecommerce.exception.NotFoundException;
 
 public interface FeedbackService {
 
-	Feedback addFeedback(Feedback feedback);
+	Feedback addFeedback(Feedback feedback) throws NotFoundException;
 
-	List<Feedback> getAllFeedbacks();
+	List<Feedback> getAllFeedbacks() throws NotFoundException;
 
 	Feedback getFeedbackById(int id) throws NotFoundException;
 

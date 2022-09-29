@@ -36,7 +36,7 @@ public class Feedback {
 	private int feedbackId;
 
 	@OneToOne
-	@JoinColumn(name = "order_id")
+	@JoinColumn(name = "order_id", unique = true)
 	@NonNull
 	private Orders order;
 

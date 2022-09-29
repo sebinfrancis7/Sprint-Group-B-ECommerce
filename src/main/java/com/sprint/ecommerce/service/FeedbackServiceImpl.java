@@ -37,10 +37,13 @@ public class FeedbackServiceImpl implements FeedbackService {
 	private SellerRepository sellerRepo;
 
 	@Override
-	public Feedback addFeedback(Feedback feedback) {
+	public Feedback addFeedback(Feedback feedback) throws NotFoundException {
 		// save feedback
 		LocalDate date = LocalDate.now();
 		feedback.setDateCreated(date);
+		if (!ordersRepo.existsById(feedback.getOrder().getOrderId())) {
+			throw new NotFoundException("Order with given ID does not exists");
+		}
 		Orders o = ordersRepo.findById(feedback.getOrder().getOrderId()).get();
 		feedback.setOrder(o);
 		Feedback response = feedbackRepo.save(feedback);
@@ -56,15 +59,19 @@ public class FeedbackServiceImpl implements FeedbackService {
 	}
 
 	@Override
-	public List<Feedback> getAllFeedbacks() {
-		return feedbackRepo.findAll();
+	public List<Feedback> getAllFeedbacks() throws NotFoundException {
+		List<Feedback> list = feedbackRepo.findAll();
+		if (list.isEmpty())
+			throw new NotFoundException("No feedbacks have been added. Check again later.");
+
+		return list;
 	}
 
 	@Override
 	public String deleteFeedbackById(int id) throws NotFoundException {
 		// TODO Auto-generated method stub
 		if (feedbackRepo.findById(id).isEmpty())
-			throw new NotFoundException();
+			throw new NotFoundException("Feedback with given ID does not exists!");
 
 		Feedback feedback = feedbackRepo.findById(id).get();
 		feedbackRepo.deleteById(id);
@@ -79,7 +86,7 @@ public class FeedbackServiceImpl implements FeedbackService {
 	public Feedback updateFeedbackById(int id, Feedback feedback) throws NotFoundException {
 		// TODO Auto-generated method stub
 		if (feedbackRepo.findById(id).isEmpty())
-			throw new NotFoundException();
+			throw new NotFoundException("Feedback with given ID : " + id + " does not exists");
 		Feedback f = feedbackRepo.findById(id).get();
 		f.setRating(feedback.getRating());
 		f.setFeedback(feedback.getFeedback());
@@ -110,7 +117,7 @@ public class FeedbackServiceImpl implements FeedbackService {
 		// TODO Auto-generated method stub
 		Seller s = sellerRepo.findById(id).get();
 		List<Product> list = s.getProduct();
-		double sellerRating = s.getRating();
+
 		int totalProductCount = list.size();
 		double totalProductRating = list.stream().map(p -> p.getRating()).mapToDouble(Double::doubleValue).sum();
 
@@ -125,24 +132,38 @@ public class FeedbackServiceImpl implements FeedbackService {
 	public Feedback getFeedbackByOrderId(int id) throws NotFoundException {
 		// TODO Auto-generated method stub
 		if (!ordersRepo.existsById(id))
-			throw new NotFoundException("order not found");
-		return feedbackRepo.getFeedbackFromOrderID(id);
+			throw new NotFoundException("Order with given ID does not exists!");
+		Feedback response = feedbackRepo.getFeedbackFromOrderID(id);
+		if (response == null) {
+			throw new NotFoundException("Customer has not given any feedback for this order yet. Check again later.");
+		}
+		return response;
 	}
 
 	@Override
 	public List<FeedbackResponse> getFeedbackByCustomerId(int id) throws NotFoundException {
 		// TODO Auto-generated method stub
 		if (!customerRepo.existsById(id))
-			throw new NotFoundException("order not found");
-		return feedbackRepo.getFeedbackFromCustomerID(id);
+			throw new NotFoundException("Customer with given ID does not exists!");
+		List<FeedbackResponse> list = feedbackRepo.getFeedbackFromCustomerID(id);
+		if (list.isEmpty()) {
+			throw new NotFoundException(
+					"Customer with id : " + id + " has not given any feedback yet. Check again later.");
+		}
+		return list;
 	}
 
 	@Override
 	public List<FeedbackResponse> getFeedbackByProductId(int id) throws NotFoundException {
 		// TODO Auto-generated method stub
 		if (!productRepo.existsById(id))
-			throw new NotFoundException("order not found");
-		return feedbackRepo.getFeedbackFromProductID(id);
+			throw new NotFoundException("Product with given ID does not exists!");
+		List<FeedbackResponse> list = feedbackRepo.getFeedbackFromProductID(id);
+		if (list.isEmpty()) {
+			throw new NotFoundException(
+					"Product with id :" + id + " does not have any feedback yet. Check again later.");
+		}
+		return list;
 
 	}
 
@@ -150,7 +171,7 @@ public class FeedbackServiceImpl implements FeedbackService {
 	public Feedback getFeedbackById(int id) throws NotFoundException {
 		// TODO Auto-generated method stub
 		if (!feedbackRepo.existsById(id))
-			throw new NotFoundException();
+			throw new NotFoundException("Feedback with given ID does not exists!");
 		return feedbackRepo.findById(id).get();
 	}
 }

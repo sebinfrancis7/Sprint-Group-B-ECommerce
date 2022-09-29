@@ -29,7 +29,7 @@ public class FeedbackController {
 	private FeedbackService feedbackServ;
 
 	@GetMapping("")
-	public ResponseEntity<List<Feedback>> getAllFeedbacks() {
+	public ResponseEntity<List<Feedback>> getAllFeedbacks() throws NotFoundException {
 		List<Feedback> list = feedbackServ.getAllFeedbacks();
 		return new ResponseEntity<List<Feedback>>(list, HttpStatus.OK);
 	}
@@ -61,7 +61,7 @@ public class FeedbackController {
 	}
 
 	@PostMapping("")
-	public ResponseEntity<Feedback> saveFeedback(@Valid @RequestBody Feedback feedback) {
+	public ResponseEntity<Feedback> saveFeedback(@Valid @RequestBody Feedback feedback) throws NotFoundException {
 		Feedback response = feedbackServ.addFeedback(feedback);
 		return new ResponseEntity<Feedback>(response, HttpStatus.OK);
 	}
