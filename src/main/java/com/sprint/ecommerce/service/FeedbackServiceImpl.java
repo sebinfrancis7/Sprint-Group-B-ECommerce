@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.sprint.ecommerce.entity.Feedback;
 import com.sprint.ecommerce.entity.Orders;
 import com.sprint.ecommerce.entity.Product;
+import com.sprint.ecommerce.entity.Seller;
 import com.sprint.ecommerce.exception.NotFoundException;
 import com.sprint.ecommerce.repository.CustomerRepository;
 import com.sprint.ecommerce.repository.FeedbackRepository;
@@ -44,7 +45,11 @@ public class FeedbackServiceImpl implements FeedbackService {
 		Feedback response = feedbackRepo.save(feedback);
 
 		// update rating
-		updateRating(feedback);
+		updateProductRating(feedback);
+
+		int sellerId = o.getSeller().getSellerId();
+		double feedbackRating = feedback.getRating();
+		updateSellerRating(sellerId, feedbackRating);
 
 		return response;
 	}
@@ -62,7 +67,7 @@ public class FeedbackServiceImpl implements FeedbackService {
 
 		Feedback feedback = feedbackRepo.findById(id).get();
 		feedbackRepo.deleteById(id);
-		updateRating(feedback);
+		updateProductRating(feedback);
 		return "Feedback deleted successfully";
 	}
 
@@ -75,13 +80,13 @@ public class FeedbackServiceImpl implements FeedbackService {
 		f.setRating(feedback.getRating());
 		f.setFeedback(feedback.getFeedback());
 		Feedback response = feedbackRepo.save(f);
-		updateRating(f);
+		updateProductRating(f);
 
 		return response;
 	}
 
 	@Override
-	public void updateRating(Feedback feedback) {
+	public void updateProductRating(Feedback feedback) {
 		// TODO Auto-generated method stub
 		double totalRating = feedbackRepo.findTotalRatingOfProduct(feedback.getOrder().getProduct());
 		int totalCount = feedbackRepo.findCountOfProductFeedback(feedback.getOrder().getProduct());
@@ -92,5 +97,21 @@ public class FeedbackServiceImpl implements FeedbackService {
 		p1.setRating(newRating);
 		productRepo.save(p1);
 
+	}
+
+	@Override
+	public void updateSellerRating(int id, double feedbackRating) {
+		// TODO Auto-generated method stub
+		Seller s = sellerRepo.findById(id).get();
+		List<Product> list = s.getProduct();
+		double sellerRating = s.getRating();
+		int totalProductCount = list.size();
+		double totalProductRating = list.stream().map(p -> p.getRating()).mapToDouble(Double::doubleValue).sum();
+
+		double updatedSellerRating = totalProductRating / totalProductCount;
+		updatedSellerRating = Math.round(updatedSellerRating * 100.0) / 100.0;
+
+		s.setRating(updatedSellerRating);
+		sellerRepo.save(s);
 	}
 }

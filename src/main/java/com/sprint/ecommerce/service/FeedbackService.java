@@ -15,6 +15,8 @@ public interface FeedbackService {
 
 	String deleteFeedbackById(int id) throws NotFoundException;
 
-	void updateRating(Feedback feedback);
+	void updateProductRating(Feedback feedback);
+
+	void updateSellerRating(int id, double rating);
 
 }
