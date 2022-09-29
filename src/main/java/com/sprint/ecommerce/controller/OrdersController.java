@@ -56,9 +56,14 @@ public class OrdersController {
 	}
 
 	@GetMapping("/order/seller/{id}")
-	public ResponseEntity<List<Orders>> getOrdersBySeller(@PathVariable int id) {
+	public ResponseEntity<List<Orders>> getOrdersBySeller(@PathVariable int id) throws NotFoundException {
 		List<Orders> ordersBySeller = ordersServ.getOrdersBySeller(id);
 		return new ResponseEntity<List<Orders>>(ordersBySeller, HttpStatus.OK);
+	}
+	@GetMapping("/order/customer/{id}")
+	public ResponseEntity<List<Orders>> getOrdersByCustomer(@PathVariable int id) throws NotFoundException {
+		List<Orders> ordersByCustomer = ordersServ.getOrdersByCustomer(id);
+		return new ResponseEntity<List<Orders>>(ordersByCustomer, HttpStatus.OK);
 	}
 
 }

@@ -17,6 +17,7 @@ public interface OrdersService {
 
 	void delete(int id) throws NotFoundException;
 
-	List<Orders> getOrdersBySeller(int id);
+	List<Orders> getOrdersBySeller(int id) throws NotFoundException;
+	List<Orders> getOrdersByCustomer(int id) throws NotFoundException;
 
 }
