@@ -45,12 +45,12 @@ public class FeedbackServiceImpl implements FeedbackService {
 		feedback.setOrder(o);
 		Feedback response = feedbackRepo.save(feedback);
 
-		// update rating
+		// update product rating
 		updateProductRating(feedback);
 
+		// update seller rating
 		int sellerId = o.getSeller().getSellerId();
-		double feedbackRating = feedback.getRating();
-		updateSellerRating(sellerId, feedbackRating);
+		updateSellerRating(sellerId);
 
 		return response;
 	}
@@ -69,6 +69,9 @@ public class FeedbackServiceImpl implements FeedbackService {
 		Feedback feedback = feedbackRepo.findById(id).get();
 		feedbackRepo.deleteById(id);
 		updateProductRating(feedback);
+
+		int sellerId = feedback.getOrder().getSeller().getSellerId();
+		updateSellerRating(sellerId);
 		return "Feedback deleted successfully";
 	}
 
@@ -83,6 +86,8 @@ public class FeedbackServiceImpl implements FeedbackService {
 		Feedback response = feedbackRepo.save(f);
 		updateProductRating(f);
 
+		int sellerID = f.getOrder().getSeller().getSellerId();
+		updateSellerRating(sellerID);
 		return response;
 	}
 
@@ -101,7 +106,7 @@ public class FeedbackServiceImpl implements FeedbackService {
 	}
 
 	@Override
-	public void updateSellerRating(int id, double feedbackRating) {
+	public void updateSellerRating(int id) {
 		// TODO Auto-generated method stub
 		Seller s = sellerRepo.findById(id).get();
 		List<Product> list = s.getProduct();
