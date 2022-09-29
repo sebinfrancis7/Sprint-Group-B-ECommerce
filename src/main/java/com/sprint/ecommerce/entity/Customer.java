@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.Pattern;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -44,6 +45,11 @@ public class Customer {
 
 	@NonNull
 	@JsonProperty(access = Access.WRITE_ONLY)
+	@Pattern(regexp = "^[a-zA-Z0-9]+", message = "It contains at least 8 characters and at most 20 characters.\r\n"
+			+ "It contains at least one digit.\r\n" + "It contains at least one upper case alphabet.\r\n"
+			+ "It contains at least one lower case alphabet.\r\n"
+			+ "It contains at least one special character which includes !@#$%&*()-+=^.\r\n"
+			+ "It doesn’t contain any white space.")
 	private String password;
 
 	@NonNull

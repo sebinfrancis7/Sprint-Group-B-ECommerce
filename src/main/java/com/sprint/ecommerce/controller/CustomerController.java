@@ -3,6 +3,8 @@ package com.sprint.ecommerce.controller;
 import java.util.List;
 import java.util.Optional;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,37 +35,38 @@ public class CustomerController {
 	}
 
 	@PostMapping("/save/customer")
-	private ResponseEntity<String> saveCustomer(@RequestBody Customer c) throws AlreadyExistsException {
+	private ResponseEntity<String> saveCustomer(@Valid @RequestBody Customer c) throws AlreadyExistsException {
 		Customer c1 = custServ.addCustomer(c);
 		return new ResponseEntity<String>("Customer added successfully.", HttpStatus.CREATED);
 	}
+
 	@GetMapping("/customer/{custId}")
-	private ResponseEntity<Optional<Customer>> getCustomerById(@PathVariable("custId") int custId){
+	private ResponseEntity<Optional<Customer>> getCustomerById(@PathVariable("custId") int custId) {
 		Optional<Customer> list = custServ.getCustomerById(custId);
 		return new ResponseEntity<Optional<Customer>>(list, HttpStatus.OK);
 	}
-	
+
 	@PostMapping("/delete/customer/{custId}")
-	public ResponseEntity<Object> deleteById(@PathVariable("custId") int custId) throws NotFoundException{
+	public ResponseEntity<Object> deleteById(@PathVariable("custId") int custId) throws NotFoundException {
 		custServ.deleteCustomerById(custId);
 		return new ResponseEntity<Object>("Customer deleted successfully", HttpStatus.OK);
 	}
-	
+
 	@PatchMapping("/update/customer")
-	public ResponseEntity<Object> updateCustomer(@RequestBody Customer c) throws NotFoundException{
-		custServ.updateCustomer(c.getCustId(),c);
+	public ResponseEntity<Object> updateCustomer(@RequestBody Customer c) throws NotFoundException {
+		custServ.updateCustomer(c.getCustId(), c);
 		return new ResponseEntity<Object>("Customer updated successfully", HttpStatus.OK);
-	} 
-	
+	}
+
 	@PostMapping("/customer/{custId}/placeorder")
-	public ResponseEntity<String> placeOrder(@PathVariable int custId, @RequestBody Orders o){
-		String s = custServ.placeOrder(custId,o);
+	public ResponseEntity<String> placeOrder(@PathVariable int custId, @RequestBody Orders o) {
+		String s = custServ.placeOrder(custId, o);
 		return new ResponseEntity<String>(s, HttpStatus.OK);
 	}
-	
+
 	@PostMapping("/customer/{custId}/wishlist")
-	public ResponseEntity<String> addWishlist( int custId, @RequestBody Product p){
-		String s = custServ.addWishlist(custId,p);
+	public ResponseEntity<String> addWishlist(int custId, @RequestBody Product p) {
+		String s = custServ.addWishlist(custId, p);
 		return new ResponseEntity<String>(s, HttpStatus.OK);
 	}
 }

@@ -16,12 +16,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class GlobalExceptionHandler {
 	@ExceptionHandler(value = NotFoundException.class)
 	public ResponseEntity<String> notFound(NotFoundException notFound) {
-		return new ResponseEntity<String>("Not Found Exception", HttpStatus.NOT_FOUND);
+		return new ResponseEntity<String>("404" + " " + notFound.getMessage(), HttpStatus.NOT_FOUND);
 	}
 
 	@ExceptionHandler(value = AlreadyExistsException.class)
 	public ResponseEntity<String> alreadyExists(AlreadyExistsException alreadyExists) {
-		return new ResponseEntity<String>("Already Exists Exception", HttpStatus.CONFLICT);
+		return new ResponseEntity<String>("409" + " " + alreadyExists.getMessage(), HttpStatus.CONFLICT);
 	}
 
 	@ExceptionHandler(value = MethodArgumentNotValidException.class)
@@ -33,6 +33,16 @@ public class GlobalExceptionHandler {
 			errors.put(fieldName, errorMessage);
 		});
 		return errors;
+	}
+
+	@ExceptionHandler(value = UniqueValueException.class)
+	public ResponseEntity<String> alreadyExists(UniqueValueException uniqueValue) {
+		return new ResponseEntity<String>("409" + " " + uniqueValue.getMessage(), HttpStatus.CONFLICT);
+	}
+
+	@ExceptionHandler(value = MismatchException.class)
+	public ResponseEntity<String> alreadyExists(MismatchException missMatch) {
+		return new ResponseEntity<String>("401" + " " + missMatch.getMessage(), HttpStatus.UNAUTHORIZED);
 	}
 
 }
