@@ -6,6 +6,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.Pattern;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -42,6 +44,8 @@ public class Seller {
 	private String password;
 	
 	@NonNull
+	@Min(value = 1)
+	@Max(value = 5)
 	private double rating;
 
 	@OneToMany
