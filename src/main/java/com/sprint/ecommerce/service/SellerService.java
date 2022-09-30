@@ -5,13 +5,15 @@ import java.util.Optional;
 
 import com.sprint.ecommerce.entity.Seller;
 import com.sprint.ecommerce.exception.AlreadyExistsException;
+import com.sprint.ecommerce.exception.MismatchException;
 import com.sprint.ecommerce.exception.NotFoundException;
+import com.sprint.ecommerce.exception.UniqueValueException;
 
 public interface SellerService {
 
-	Seller saveSeller(Seller seller) throws AlreadyExistsException;
+	Seller saveSeller(Seller seller) throws AlreadyExistsException, UniqueValueException;
 
-	List<Seller> getAllSellers();
+	List<Seller> getAllSellers() throws NotFoundException;
 
 	Optional<Seller> getSellerById(int sellerId) throws NotFoundException;
 
@@ -19,10 +21,8 @@ public interface SellerService {
 
 	Seller updateSeller(Seller seller) throws NotFoundException;
 
-	String loginSeller(Seller seller) throws NotFoundException;
+	String loginSeller(Seller seller) throws NotFoundException, MismatchException;
 	
 	List<Seller> filterAboveRating(double rating) throws NotFoundException;
 	
-//	List<Seller> getSellerBySellerName(String sellerName) throws NotFoundException;
-
 }

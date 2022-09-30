@@ -3,6 +3,8 @@ package com.sprint.ecommerce.controller;
 import java.util.List;
 import java.util.Optional;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +20,7 @@ import com.sprint.ecommerce.entity.Orders;
 import com.sprint.ecommerce.entity.Seller;
 import com.sprint.ecommerce.exception.AlreadyExistsException;
 import com.sprint.ecommerce.exception.NotFoundException;
+import com.sprint.ecommerce.exception.UniqueValueException;
 import com.sprint.ecommerce.service.SellerService;
 
 @RestController
@@ -27,13 +30,13 @@ public class SellerController {
 	private SellerService sellerServ;
 	
 	@PostMapping("/save/seller")
-	public ResponseEntity<String> saveSeller(@RequestBody Seller seller) throws AlreadyExistsException{
+	public ResponseEntity<String> saveSeller(@Valid @RequestBody Seller seller) throws AlreadyExistsException, UniqueValueException{
 		Seller s1 = sellerServ.saveSeller(seller);
 		return new ResponseEntity<String>("Seller Saved Successfully",HttpStatus.OK);
 	}
 	
 	@GetMapping("/sellers")
-	public ResponseEntity<List<Seller>> getSellers() {
+	public ResponseEntity<List<Seller>> getSellers() throws NotFoundException {
 		List<Seller> list = sellerServ.getAllSellers();
 		return new ResponseEntity<List<Seller>>(list, HttpStatus.OK);
 	}
@@ -61,11 +64,5 @@ public class SellerController {
 		List<Seller> sellers = sellerServ.filterAboveRating(rating);
 		return new ResponseEntity<List<Seller>>(sellers,HttpStatus.OK);
 	}
-	
-//	@GetMapping("seller/sellerName/{sellerName}")
-//	public ResponseEntity<List<Seller>> getSellerBySellerName(@PathVariable String sellerName) throws NotFoundException{
-//		List<Seller> seller = sellerServ.getSellerBySellerName(sellerName);
-//		return new ResponseEntity<List<Seller>>(seller,HttpStatus.OK);
-//	}
 	
 }

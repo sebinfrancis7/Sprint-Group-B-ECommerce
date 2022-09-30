@@ -18,7 +18,4 @@ public interface SellerRepository extends JpaRepository<Seller, Integer>{
 	@Query("SELECT s FROM Seller s WHERE s.rating >=:rating")
 	public List<Seller> findAboveRating(@Param("rating") double rating);
 	
-//	@Query("SELECT s FROM Seller s WHERE s.sellerName =: sellerName")
-//	public List<Seller> findBySellerName(@Param("sellerName") String sellerName);
-	
 }

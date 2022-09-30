@@ -30,7 +30,7 @@ public class LoginController {
 	}
 	
 	@PostMapping("/login/seller")
-	public ResponseEntity<String> loginSeller(@RequestBody Seller seller) throws NotFoundException {
+	public ResponseEntity<String> loginSeller(@RequestBody Seller seller) throws NotFoundException, MismatchException {
 		String response = sellerServ.loginSeller(seller);
 		return new ResponseEntity<String>(response, HttpStatus.OK);
 	}
