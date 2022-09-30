@@ -24,9 +24,9 @@ public interface FeedbackRepository extends JpaRepository<Feedback, Integer> {
 	@Query("select f from Feedback f where f.order.orderId = :id")
 	public Feedback getFeedbackFromOrderID(@Param("id") int id);
 
-	@Query("select new com.sprint.ecommerce.entity.FeedbackResponse(f.feedbackId,f.rating, f.feedback, f.dateCreated) from Feedback f where f.order.customer.custId = :id")
+	@Query("select new com.sprint.ecommerce.entity.FeedbackResponse(f.feedbackId,f.rating, f.feedback, f.dateCreated) from Feedback f where f.order.customer.custId = :id order by f.order.orderId desc")
 	public List<FeedbackResponse> getFeedbackFromCustomerID(@Param("id") int id);
 
-	@Query("select new com.sprint.ecommerce.entity.FeedbackResponse(f.feedbackId,f.rating, f.feedback, f.dateCreated) from Feedback f where f.order.product.prodId = :id")
+	@Query("select new com.sprint.ecommerce.entity.FeedbackResponse(f.feedbackId,f.rating, f.feedback, f.dateCreated) from Feedback f where f.order.product.prodId = :id order by f.rating desc")
 	public List<FeedbackResponse> getFeedbackFromProductID(@Param("id") int id);
 }
