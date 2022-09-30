@@ -45,11 +45,7 @@ public class Customer {
 
 	@NonNull
 	@JsonProperty(access = Access.WRITE_ONLY)
-	@Pattern(regexp = "^[a-zA-Z0-9]+", message = "It contains at least 8 characters and at most 20 characters.\r\n"
-			+ "It contains at least one digit.\r\n" + "It contains at least one upper case alphabet.\r\n"
-			+ "It contains at least one lower case alphabet.\r\n"
-			+ "It contains at least one special character which includes !@#$%&*()-+=^.\r\n"
-			+ "It doesn’t contain any white space.")
+	@Pattern(regexp = "^[a-zA-Z0-9]{4,}", message = "Password must contain atleast 4 letters and no special characters.")
 	private String password;
 
 	@NonNull
