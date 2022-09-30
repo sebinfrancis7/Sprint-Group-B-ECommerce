@@ -41,9 +41,11 @@ public class CustomerServiceImpl implements CustomerService {
 		if (cRepo.existsById(c.getCustId()))
 			throw new AlreadyExistsException("Customer Already exists");
 		List<String> userNameList = cRepo.uniqueUserName();
-		if(userNameList.contains(c.getUserName())) {
+		if (userNameList.contains(c.getUserName())) {
 			throw new UniqueValueException("Username already exists");
 		}
+		PasswordHash p1 = new PasswordHash();
+		c.setPassword(p1.encrypt(c.getPassword()));
 		Customer c1 = cRepo.save(c);
 		return c1;
 	}
@@ -97,9 +99,11 @@ public class CustomerServiceImpl implements CustomerService {
 
 	@Override
 	public String loginCustomer(Customer customer) throws NotFoundException, MismatchException {
+		PasswordHash p1 = new PasswordHash();
 		if (cRepo.existsById(customer.getCustId())) {
 			Customer c1 = cRepo.findById(customer.getCustId()).get();
-			if (customer.getUserName().equals(c1.getUserName()) && customer.getPassword().equals(c1.getPassword())) {
+			if (customer.getUserName().equals(c1.getUserName())
+					&& customer.getPassword().equals(p1.decrypt(c1.getPassword()))) {
 				return "Customer logged in";
 			} else {
 				throw new MismatchException("Incorrect Username or Password. Please try again.");
@@ -114,17 +118,18 @@ public class CustomerServiceImpl implements CustomerService {
 
 		if (cRepo.existsById(custId)) {
 			Customer c = cRepo.findById(custId).get();
-			if(sRepo.existsById(o.getSeller().getSellerId())) {
+			if (sRepo.existsById(o.getSeller().getSellerId())) {
 				Seller s1 = sRepo.findById(o.getSeller().getSellerId()).get();
-				if(s1.getProduct().contains(o.getProduct())) {
-					//Orders o1 = new Orders(o.getOrderId(), o.getCustomer(), o.getSeller(), o.getProduct(), o.getDeliveryDate());
+				if (s1.getProduct().contains(o.getProduct())) {
+					// Orders o1 = new Orders(o.getOrderId(), o.getCustomer(), o.getSeller(),
+					// o.getProduct(), o.getDeliveryDate());
 					ordersServ.saveOrder(o);
 					c.addToCustOrders(o);
 					cRepo.save(c);
 					return "Order placed successfully";
-				}
-				else {
-					return "Seller "+ o.getSeller().getSellerId() + " doesn't sell product "+ o.getProduct().getProdId();
+				} else {
+					return "Seller " + o.getSeller().getSellerId() + " doesn't sell product "
+							+ o.getProduct().getProdId();
 				}
 			} else {
 				return "Seller " + o.getSeller().getSellerId() + " doesn't exist";
