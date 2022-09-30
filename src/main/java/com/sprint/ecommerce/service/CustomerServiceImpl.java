@@ -124,6 +124,7 @@ public class CustomerServiceImpl implements CustomerService {
 				if (s1.getProduct().contains(o.getProduct())) {
 					// Orders o1 = new Orders(o.getOrderId(), o.getCustomer(), o.getSeller(),
 					// o.getProduct(), o.getDeliveryDate());
+					o.setCustomer(c);
 					ordersServ.saveOrder(o);
 					c.addToCustOrders(o);
 					cRepo.save(c);
