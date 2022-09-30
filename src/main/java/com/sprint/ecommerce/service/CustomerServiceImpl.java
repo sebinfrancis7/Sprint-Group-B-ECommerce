@@ -11,7 +11,9 @@ import com.sprint.ecommerce.entity.Orders;
 import com.sprint.ecommerce.entity.Product;
 import com.sprint.ecommerce.entity.Seller;
 import com.sprint.ecommerce.exception.AlreadyExistsException;
+import com.sprint.ecommerce.exception.MismatchException;
 import com.sprint.ecommerce.exception.NotFoundException;
+import com.sprint.ecommerce.exception.UniqueValueException;
 import com.sprint.ecommerce.repository.CustomerRepository;
 import com.sprint.ecommerce.repository.OrdersRepository;
 import com.sprint.ecommerce.repository.ProductRepository;
@@ -35,9 +37,13 @@ public class CustomerServiceImpl implements CustomerService {
 	private OrdersService ordersServ;
 
 	@Override
-	public Customer addCustomer(Customer c) throws AlreadyExistsException {
+	public Customer addCustomer(Customer c) throws AlreadyExistsException, UniqueValueException {
 		if (cRepo.existsById(c.getCustId()))
-			throw new AlreadyExistsException();
+			throw new AlreadyExistsException("Customer Already exists");
+		List<String> userNameList = cRepo.uniqueUserName();
+		if(userNameList.contains(c.getUserName())) {
+			throw new UniqueValueException("Username already exists");
+		}
 		Customer c1 = cRepo.save(c);
 		return c1;
 	}
@@ -49,14 +55,16 @@ public class CustomerServiceImpl implements CustomerService {
 	}
 
 	@Override
-	public Optional<Customer> getCustomerById(int custId) {
+	public Optional<Customer> getCustomerById(int custId) throws NotFoundException {
+		if (!cRepo.existsById(custId))
+			throw new NotFoundException("Customer not found");
 		return cRepo.findById(custId);
 	}
 
 	@Override
 	public void deleteCustomerById(int custId) throws NotFoundException {
 		if (!cRepo.existsById(custId))
-			throw new NotFoundException();
+			throw new NotFoundException("Customer not found");
 		cRepo.deleteById(custId);
 		;
 	}
@@ -64,7 +72,7 @@ public class CustomerServiceImpl implements CustomerService {
 	@Override
 	public void updateCustomer(int custId, Customer c) throws NotFoundException {
 		if (!cRepo.existsById(custId)) {
-			throw new NotFoundException();
+			throw new NotFoundException("Customer not found");
 		}
 		Customer c1 = cRepo.getById(custId);
 		if (!c.getCustName().isEmpty())
@@ -88,16 +96,16 @@ public class CustomerServiceImpl implements CustomerService {
 	}
 
 	@Override
-	public String loginCustomer(Customer customer) throws NotFoundException {
+	public String loginCustomer(Customer customer) throws NotFoundException, MismatchException {
 		if (cRepo.existsById(customer.getCustId())) {
 			Customer c1 = cRepo.findById(customer.getCustId()).get();
 			if (customer.getUserName().equals(c1.getUserName()) && customer.getPassword().equals(c1.getPassword())) {
 				return "Customer logged in";
 			} else {
-				return "Invalid Credentials";
+				throw new MismatchException("Incorrect Username or Password. Please try again.");
 			}
 		} else {
-			throw new NotFoundException();
+			throw new NotFoundException("Customer not found");
 		}
 	}
 

@@ -19,7 +19,9 @@ import com.sprint.ecommerce.entity.Customer;
 import com.sprint.ecommerce.entity.Orders;
 import com.sprint.ecommerce.entity.Product;
 import com.sprint.ecommerce.exception.AlreadyExistsException;
+import com.sprint.ecommerce.exception.MismatchException;
 import com.sprint.ecommerce.exception.NotFoundException;
+import com.sprint.ecommerce.exception.UniqueValueException;
 import com.sprint.ecommerce.service.CustomerService;
 
 @RestController
@@ -35,13 +37,13 @@ public class CustomerController {
 	}
 
 	@PostMapping("/save/customer")
-	private ResponseEntity<String> saveCustomer(@Valid @RequestBody Customer c) throws AlreadyExistsException {
+	private ResponseEntity<String> saveCustomer(@Valid @RequestBody Customer c) throws AlreadyExistsException, UniqueValueException {
 		Customer c1 = custServ.addCustomer(c);
 		return new ResponseEntity<String>("Customer added successfully.", HttpStatus.CREATED);
 	}
 
 	@GetMapping("/customer/{custId}")
-	private ResponseEntity<Optional<Customer>> getCustomerById(@PathVariable("custId") int custId) {
+	private ResponseEntity<Optional<Customer>> getCustomerById(@PathVariable("custId") int custId) throws NotFoundException {
 		Optional<Customer> list = custServ.getCustomerById(custId);
 		return new ResponseEntity<Optional<Customer>>(list, HttpStatus.OK);
 	}

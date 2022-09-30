@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.sprint.ecommerce.entity.Customer;
 import com.sprint.ecommerce.entity.Seller;
+import com.sprint.ecommerce.exception.MismatchException;
 import com.sprint.ecommerce.exception.NotFoundException;
 import com.sprint.ecommerce.service.CustomerService;
 import com.sprint.ecommerce.service.SellerService;
@@ -23,7 +24,7 @@ public class LoginController {
 	private SellerService sellerServ;
 
 	@PostMapping("/login/customer")
-	public ResponseEntity<String> loginCustomer(@RequestBody Customer customer) throws NotFoundException {
+	public ResponseEntity<String> loginCustomer(@RequestBody Customer customer) throws NotFoundException, MismatchException {
 		String response = customerServ.loginCustomer(customer);
 		return new ResponseEntity<String>(response, HttpStatus.OK);
 	}
