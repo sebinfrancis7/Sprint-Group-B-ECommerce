@@ -1,6 +1,5 @@
 package com.sprint.ecommerce.service;
 
-import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,6 +13,7 @@ import com.sprint.ecommerce.exception.MismatchException;
 import com.sprint.ecommerce.exception.NotFoundException;
 import com.sprint.ecommerce.exception.UniqueValueException;
 import com.sprint.ecommerce.helpers.PasswordHash;
+import com.sprint.ecommerce.repository.ProductRepository;
 import com.sprint.ecommerce.repository.SellerRepository;
 
 @Service
@@ -21,6 +21,12 @@ public class SellerServiceImpl implements SellerService {
 
 	@Autowired
 	private SellerRepository sellerRepo;
+
+	@Autowired
+	private ProductRepository productRepo;
+
+	@Autowired
+	private ProductService productServ;
 
 	@Override
 	public Seller saveSeller(Seller seller) throws AlreadyExistsException, UniqueValueException {
@@ -96,6 +102,20 @@ public class SellerServiceImpl implements SellerService {
 			throw new NotFoundException("No sellers found above " + rating + " rating.");
 		}
 		return list;
+	}
+
+	@Override
+	public String addToProductList(int sellerId, Product p)
+			throws AlreadyExistsException, NotFoundException, Exception {
+		if (sellerRepo.existsById(sellerId)) {
+			Seller s1 = sellerRepo.findById(sellerId).get();
+			productServ.saveProduct(p);
+			s1.addToProductList(p);
+			sellerRepo.save(s1);
+			return "Product added successfully";
+		} else {
+			throw new NotFoundException("Seller not found");
+		}
 	}
 
 }

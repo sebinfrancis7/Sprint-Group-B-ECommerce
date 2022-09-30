@@ -47,6 +47,10 @@ public class Seller {
 	@OneToMany
 	private List<Product> product;
 
+	public void addToProductList(Product p) {
+		product.add(p);
+	}
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(sellerId);

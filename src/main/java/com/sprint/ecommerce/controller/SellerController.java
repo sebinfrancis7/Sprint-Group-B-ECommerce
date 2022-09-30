@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.sprint.ecommerce.entity.Orders;
+import com.sprint.ecommerce.entity.Product;
 import com.sprint.ecommerce.entity.Seller;
 import com.sprint.ecommerce.exception.AlreadyExistsException;
 import com.sprint.ecommerce.exception.NotFoundException;
@@ -25,44 +25,52 @@ import com.sprint.ecommerce.service.SellerService;
 
 @RestController
 public class SellerController {
-	
+
 	@Autowired
 	private SellerService sellerServ;
-	
+
 	@PostMapping("/save/seller")
-	public ResponseEntity<String> saveSeller(@Valid @RequestBody Seller seller) throws AlreadyExistsException, UniqueValueException{
+	public ResponseEntity<String> saveSeller(@Valid @RequestBody Seller seller)
+			throws AlreadyExistsException, UniqueValueException {
 		Seller s1 = sellerServ.saveSeller(seller);
-		return new ResponseEntity<String>("Seller Saved Successfully",HttpStatus.OK);
+		return new ResponseEntity<String>("Seller Saved Successfully", HttpStatus.OK);
 	}
-	
+
 	@GetMapping("/sellers")
 	public ResponseEntity<List<Seller>> getSellers() throws NotFoundException {
 		List<Seller> list = sellerServ.getAllSellers();
 		return new ResponseEntity<List<Seller>>(list, HttpStatus.OK);
 	}
-	
+
 	@GetMapping("/seller/{sellerId}")
-	public ResponseEntity<Optional<Seller>> getSellerById(@PathVariable int sellerId) throws NotFoundException{
+	public ResponseEntity<Optional<Seller>> getSellerById(@PathVariable int sellerId) throws NotFoundException {
 		Optional<Seller> seller = sellerServ.getSellerById(sellerId);
-		return new ResponseEntity<Optional<Seller>>(seller,HttpStatus.OK);
+		return new ResponseEntity<Optional<Seller>>(seller, HttpStatus.OK);
 	}
-	
+
 	@DeleteMapping("/delete/seller/{sellerId}")
-	public ResponseEntity<String> deleteSellerById(@PathVariable int sellerId) throws NotFoundException{
+	public ResponseEntity<String> deleteSellerById(@PathVariable int sellerId) throws NotFoundException {
 		sellerServ.deleteSeller(sellerId);
-		return new ResponseEntity<String>("Seller Deleted Successfully",HttpStatus.ACCEPTED);
+		return new ResponseEntity<String>("Seller Deleted Successfully", HttpStatus.ACCEPTED);
 	}
-	
+
 	@PatchMapping("/update/seller")
 	public ResponseEntity<String> update(@RequestBody Seller seller) throws NotFoundException {
 		sellerServ.updateSeller(seller);
-		return new ResponseEntity<String>("Seller Updated Successfully",HttpStatus.ACCEPTED);
+		return new ResponseEntity<String>("Seller Updated Successfully", HttpStatus.ACCEPTED);
 	}
-	
-	@GetMapping("seller/ratingAbove/{rating}")
-	public ResponseEntity<List<Seller>> filterSellerAboveRating(@PathVariable double rating) throws NotFoundException{
+
+	@GetMapping("/seller/ratingAbove/{rating}")
+	public ResponseEntity<List<Seller>> filterSellerAboveRating(@PathVariable double rating) throws NotFoundException {
 		List<Seller> sellers = sellerServ.filterAboveRating(rating);
-		return new ResponseEntity<List<Seller>>(sellers,HttpStatus.OK);
+		return new ResponseEntity<List<Seller>>(sellers, HttpStatus.OK);
 	}
-	
+
+	@PostMapping("/seller/{sellerId}/addproduct")
+	public ResponseEntity<String> addToProductList(@PathVariable int sellerId, @RequestBody Product p)
+			throws AlreadyExistsException, Exception {
+		String resp = sellerServ.addToProductList(sellerId, p);
+		return new ResponseEntity<String>(resp, HttpStatus.OK);
+	}
+
 }

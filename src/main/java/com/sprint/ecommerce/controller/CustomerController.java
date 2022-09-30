@@ -19,7 +19,6 @@ import com.sprint.ecommerce.entity.Customer;
 import com.sprint.ecommerce.entity.Orders;
 import com.sprint.ecommerce.entity.Product;
 import com.sprint.ecommerce.exception.AlreadyExistsException;
-import com.sprint.ecommerce.exception.MismatchException;
 import com.sprint.ecommerce.exception.NotFoundException;
 import com.sprint.ecommerce.exception.UniqueValueException;
 import com.sprint.ecommerce.service.CustomerService;
@@ -67,7 +66,7 @@ public class CustomerController {
 	}
 
 	@PostMapping("/customer/{custId}/wishlist")
-	public ResponseEntity<String> addWishlist(int custId, @RequestBody Product p) {
+	public ResponseEntity<String> addWishlist(@PathVariable int custId, @RequestBody Product p) {
 		String s = custServ.addWishlist(custId, p);
 		return new ResponseEntity<String>(s, HttpStatus.OK);
 	}
