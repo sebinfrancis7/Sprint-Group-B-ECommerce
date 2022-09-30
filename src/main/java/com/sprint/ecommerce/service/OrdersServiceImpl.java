@@ -1,5 +1,6 @@
 package com.sprint.ecommerce.service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,6 +29,7 @@ public class OrdersServiceImpl implements OrdersService {
 	public Orders saveOrder(Orders orders) throws AlreadyExistsException {
 		if (ordersRepo.existsById(orders.getOrderId()))
 			throw new AlreadyExistsException("Order already exists");
+		orders.setDeliveryDate(LocalDate.now().plusDays(3));
 		return ordersRepo.save(orders);
 	}
 

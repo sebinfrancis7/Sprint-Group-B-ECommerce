@@ -14,6 +14,5 @@ public interface OrdersRepository extends JpaRepository<Orders, Integer> {
 	@Query("select e from Orders e where e.seller=:seller")
 	public List<Orders> findBySeller(@Param("seller") Seller seller);
 	@Query("select e from Orders e where e.customer=:customer")
-	public List<Orders> findByCustomer(@Param("customer") Customer customer);
-	
+	public List<Orders> findByCustomer(@Param("customer") Customer customer);	
 }
