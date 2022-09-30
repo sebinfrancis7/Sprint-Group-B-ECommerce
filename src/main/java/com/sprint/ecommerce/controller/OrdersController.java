@@ -35,7 +35,7 @@ public class OrdersController {
 		return new ResponseEntity<List<Orders>>(allOrders, HttpStatus.OK);
 	}
 
-	@GetMapping("/orders/{id}")
+	@GetMapping("/order/{id}")
 	public ResponseEntity<Orders> getOrderById(@PathVariable int id) throws NotFoundException {
 		Orders orderById = ordersServ.getOrderById(id);
 		return new ResponseEntity<Orders>(orderById, HttpStatus.OK);

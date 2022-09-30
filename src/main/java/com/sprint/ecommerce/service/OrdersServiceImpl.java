@@ -1,8 +1,11 @@
 package com.sprint.ecommerce.service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,6 +32,7 @@ public class OrdersServiceImpl implements OrdersService {
 	public Orders saveOrder(Orders orders) throws AlreadyExistsException {
 		if (ordersRepo.existsById(orders.getOrderId()))
 			throw new AlreadyExistsException("Order already exists");
+		orders.setOrderDate(LocalDateTime.now());
 		orders.setDeliveryDate(LocalDate.now().plusDays(3));
 		return ordersRepo.save(orders);
 	}
@@ -68,7 +72,7 @@ public class OrdersServiceImpl implements OrdersService {
 		if(sellerRepo.existsById(id)) {
 		Seller s1 = sellerRepo.findById(id).get();
 		List<Orders> findBySeller = ordersRepo.findBySeller(s1);
-		return findBySeller;
+		return findBySeller.stream().sorted(Comparator.comparing(Orders::getOrderDate).reversed()).collect(Collectors.toList());
 		}
 		else {
 			throw new NotFoundException("No orders from seller " +id);
@@ -79,8 +83,8 @@ public class OrdersServiceImpl implements OrdersService {
 	public List<Orders> getOrdersByCustomer(int id) throws NotFoundException {
 		if (customerRepo.existsById(id)) {
 			Customer s1 = customerRepo.findById(id).get();
-			List<Orders> findByCustomer = ordersRepo.findByCustomer(s1);
-			return findByCustomer;
+			List<Orders> findByCustomer = s1.getCustOrders();
+			return findByCustomer.stream().sorted(Comparator.comparing(Orders::getOrderDate).reversed()).collect(Collectors.toList());
 		} else {
 			throw new NotFoundException("No orders from customer " +id);
 		}

@@ -1,6 +1,7 @@
 package com.sprint.ecommerce.entity;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -29,7 +30,8 @@ public class Orders {
 	private Seller seller;
 	@OneToOne
 	private Product product;
-
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
+	private LocalDateTime orderDate;
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
 	private LocalDate deliveryDate;
 }

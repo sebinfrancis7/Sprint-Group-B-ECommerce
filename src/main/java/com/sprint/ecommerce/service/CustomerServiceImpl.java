@@ -124,7 +124,7 @@ public class CustomerServiceImpl implements CustomerService {
 					return "Order placed successfully";
 				}
 				else {
-					return "Seller "+ o.getSeller().getSellerId() + " doesn't sell "+ o.getProduct().getProdId();
+					return "Seller "+ o.getSeller().getSellerId() + " doesn't sell product "+ o.getProduct().getProdId();
 				}
 			} else {
 				return "Seller " + o.getSeller().getSellerId() + " doesn't exist";
