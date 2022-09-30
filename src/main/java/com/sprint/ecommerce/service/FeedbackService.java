@@ -3,8 +3,8 @@ package com.sprint.ecommerce.service;
 import java.util.List;
 
 import com.sprint.ecommerce.entity.Feedback;
-import com.sprint.ecommerce.entity.FeedbackResponse;
 import com.sprint.ecommerce.exception.NotFoundException;
+import com.sprint.ecommerce.helpers.FeedbackResponse;
 
 public interface FeedbackService {
 

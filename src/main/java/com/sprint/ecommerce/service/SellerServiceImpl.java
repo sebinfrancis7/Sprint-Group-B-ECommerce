@@ -13,6 +13,7 @@ import com.sprint.ecommerce.exception.AlreadyExistsException;
 import com.sprint.ecommerce.exception.MismatchException;
 import com.sprint.ecommerce.exception.NotFoundException;
 import com.sprint.ecommerce.exception.UniqueValueException;
+import com.sprint.ecommerce.helpers.PasswordHash;
 import com.sprint.ecommerce.repository.SellerRepository;
 
 @Service

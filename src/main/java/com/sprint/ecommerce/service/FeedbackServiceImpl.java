@@ -7,11 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.sprint.ecommerce.entity.Feedback;
-import com.sprint.ecommerce.entity.FeedbackResponse;
 import com.sprint.ecommerce.entity.Orders;
 import com.sprint.ecommerce.entity.Product;
 import com.sprint.ecommerce.entity.Seller;
 import com.sprint.ecommerce.exception.NotFoundException;
+import com.sprint.ecommerce.helpers.FeedbackResponse;
 import com.sprint.ecommerce.repository.CustomerRepository;
 import com.sprint.ecommerce.repository.FeedbackRepository;
 import com.sprint.ecommerce.repository.OrdersRepository;

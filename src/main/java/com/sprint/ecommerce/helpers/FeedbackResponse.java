@@ -1,4 +1,4 @@
-package com.sprint.ecommerce.entity;
+package com.sprint.ecommerce.helpers;
 
 import java.time.LocalDate;
 

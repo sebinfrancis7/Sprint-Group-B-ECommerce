@@ -1,4 +1,4 @@
-package com.sprint.ecommerce.service;
+package com.sprint.ecommerce.helpers;
 
 public class PasswordHash {
 

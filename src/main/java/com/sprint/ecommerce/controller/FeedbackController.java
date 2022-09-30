@@ -17,8 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sprint.ecommerce.entity.Feedback;
-import com.sprint.ecommerce.entity.FeedbackResponse;
 import com.sprint.ecommerce.exception.NotFoundException;
+import com.sprint.ecommerce.helpers.FeedbackResponse;
 import com.sprint.ecommerce.service.FeedbackService;
 
 @RestController
