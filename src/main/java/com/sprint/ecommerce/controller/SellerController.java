@@ -73,4 +73,11 @@ public class SellerController {
 		return new ResponseEntity<String>(resp, HttpStatus.OK);
 	}
 
+	@DeleteMapping("/seller/{sellerId}/removeproduct/{prodId}")
+	public ResponseEntity<String> removeFromProductList(@PathVariable int sellerId, @PathVariable int prodId)
+			throws NotFoundException {
+		String resp = sellerServ.removeFromProductList(sellerId, prodId);
+		return new ResponseEntity<String>(resp, HttpStatus.OK);
+	}
+
 }

@@ -77,13 +77,14 @@ public class CustomerServiceImpl implements CustomerService {
 		if (!cRepo.existsById(custId)) {
 			throw new NotFoundException("Customer not found");
 		}
+		PasswordHash p1 = new PasswordHash();
 		Customer c1 = cRepo.getById(custId);
 		if (!c.getCustName().isEmpty())
 			c1.setCustName(c.getCustName());
 		if (!c.getUserName().isEmpty())
 			c1.setUserName(c.getUserName());
 		if (!c.getPassword().isEmpty())
-			c1.setPassword(c.getPassword());
+			c1.setPassword(p1.encrypt(c.getPassword()));
 		if (!c.getAddress().isEmpty())
 			c1.setAddress(c.getAddress());
 //		if (!c.getWishlist().isEmpty())

@@ -118,4 +118,27 @@ public class SellerServiceImpl implements SellerService {
 		}
 	}
 
+	@Override
+	public String removeFromProductList(int sellerId, int prodId) throws NotFoundException {
+		if (sellerRepo.existsById(sellerId)) {
+			Seller s1 = sellerRepo.findById(sellerId).get();
+			List<Product> list = s1.getProduct();
+			if (productRepo.existsById(prodId)) {
+				Product p = productRepo.findById(prodId).get();
+				if (list.contains(p)) {
+					list.remove(p);
+					s1.setProduct(list);
+					sellerRepo.save(s1);
+					return "Product removed successfully";
+				} else {
+					throw new NotFoundException("Seller doesn't sell product " + p.getProdId());
+				}
+			} else {
+				throw new NotFoundException("Product not found");
+			}
+		} else {
+			throw new NotFoundException("Seller not found");
+		}
+	}
+
 }

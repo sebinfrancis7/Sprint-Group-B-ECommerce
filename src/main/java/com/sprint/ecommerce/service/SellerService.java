@@ -28,4 +28,5 @@ public interface SellerService {
 
 	String addToProductList(int sellerId, Product p) throws NotFoundException, AlreadyExistsException, Exception;
 
+	String removeFromProductList(int sellerId, int prodId) throws NotFoundException;
 }
