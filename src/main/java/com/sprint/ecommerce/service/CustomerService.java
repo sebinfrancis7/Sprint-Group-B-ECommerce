@@ -30,7 +30,7 @@ public interface CustomerService {
 
 	String placeOrder(int custId, Orders o) throws AlreadyExistsException;
 
-	String addWishlist(int custId, Product p);
+	String addWishlist(int custId, Product p) throws AlreadyExistsException;
 
 
 }

@@ -148,7 +148,7 @@ public class CustomerServiceImpl implements CustomerService {
 	}
 
 	@Override
-	public String addWishlist(int custId, Product p) {
+	public String addWishlist(int custId, Product p) throws AlreadyExistsException {
 
 //		Customer c = cRepo.getById(custId);
 //		List<Product> p1 =c.getWishlist();
@@ -164,6 +164,8 @@ public class CustomerServiceImpl implements CustomerService {
 		if (cRepo.existsById(custId)) {
 			Customer c = cRepo.findById(custId).get();
 			Product p1 = pRepo.findById(p.getProdId()).get();
+			if(c.getWishlist().contains(p1))
+				throw new AlreadyExistsException("Product already exists"); 
 			c.addToWishlist(p1);
 			cRepo.save(c);
 			return "wishlist updated successfully";
