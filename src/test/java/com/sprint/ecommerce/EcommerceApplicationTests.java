@@ -13,7 +13,6 @@ import com.sprint.ecommerce.entity.Product;
 import com.sprint.ecommerce.entity.Seller;
 import com.sprint.ecommerce.exception.AlreadyExistsException;
 import com.sprint.ecommerce.exception.NotFoundException;
-import com.sprint.ecommerce.repository.OrdersRepository;
 import com.sprint.ecommerce.service.CustomerService;
 import com.sprint.ecommerce.service.FeedbackService;
 import com.sprint.ecommerce.service.OrdersService;
@@ -37,9 +36,6 @@ class EcommerceApplicationTests {
 
 	@Autowired
 	FeedbackService feedbackServ;
-
-	@Autowired
-	OrdersRepository ordersRepo;
 
 	@Test
 	void contextLoads() {
@@ -114,35 +110,5 @@ class EcommerceApplicationTests {
 
 		assertEquals(c.getCustId(), savedCustomer.getCustId());
 	}
-
-//	@Test
-//	@Transactional
-//	@Rollback(false)
-//	public void placeOrderTest() throws Exception {
-//
-//		Orders o = new Orders();
-//		o.setOrderId(1000);
-//
-//		Seller s = new Seller();
-//		s.setSellerId(1000);
-//		Product p = new Product();
-//		p.setProdId(1001);
-//		Customer c = new Customer();
-//		c.setCustId(1000);
-//		o.setSeller(s);
-//		o.setProduct(p);
-//		o.setCustomer(c);
-//		o.setOrderDate(LocalDateTime.now());
-//		o.setDeliveryDate(LocalDate.now().plusDays(3));
-//		ordersRepo.saveAndFlush(o);
-//
-//	}
-//
-//	@Test
-//	@Transactional
-//	public void findPlacedOrder() throws NotFoundException {
-//		Orders savedOrder = orderServ.getOrderById(1000);
-//		assertEquals(1000, savedOrder.getOrderId());
-//	}
 
 }
