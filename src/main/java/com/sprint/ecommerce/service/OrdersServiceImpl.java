@@ -63,7 +63,7 @@ public class OrdersServiceImpl implements OrdersService {
 	public void delete(int id) throws NotFoundException {
 		if (ordersRepo.findById(id).get() == null)
 			throw new NotFoundException("Order not found");
-		ordersRepo.delete(ordersRepo.findById(id).get());
+		ordersRepo.deleteById(id);
 
 	}
 

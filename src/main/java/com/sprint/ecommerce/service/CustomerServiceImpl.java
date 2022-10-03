@@ -164,13 +164,40 @@ public class CustomerServiceImpl implements CustomerService {
 		if (cRepo.existsById(custId)) {
 			Customer c = cRepo.findById(custId).get();
 			Product p1 = pRepo.findById(p.getProdId()).get();
-			if(c.getWishlist().contains(p1))
-				throw new AlreadyExistsException("Product already exists"); 
+			if (c.getWishlist().contains(p1))
+				throw new AlreadyExistsException("Product already exists");
 			c.addToWishlist(p1);
 			cRepo.save(c);
 			return "wishlist updated successfully";
 		} else {
 			return "Customer with given id does not exist";
+		}
+	}
+
+	@Override
+	public String deleteOrder(int custId, int orderId) throws NotFoundException {
+		if (cRepo.existsById(custId)) {
+			Customer customer = cRepo.findById(custId).get();
+			List<Orders> custOrders = customer.getCustOrders();
+			if (oRepo.existsById(orderId)) {
+				Orders orders = oRepo.findById(orderId).get();
+				if (custOrders.contains(orders)) {
+					custOrders.remove(orders);
+					customer.setCustOrders(custOrders);
+					cRepo.save(customer);
+					ordersServ.delete(orderId);
+					return "Order deleted successfully";
+
+				} else {
+					throw new NotFoundException("Customer " + custId + " hasn't placed the order " + orderId);
+				}
+
+			} else {
+				throw new NotFoundException("Order with id " + orderId + " doesn't exist.");
+			}
+
+		} else {
+			throw new NotFoundException("Customer with id: " + custId + " doesn't exist.");
 		}
 	}
 

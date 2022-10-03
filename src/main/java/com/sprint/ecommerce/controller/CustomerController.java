@@ -8,6 +8,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -69,5 +70,12 @@ public class CustomerController {
 	public ResponseEntity<String> addWishlist(@PathVariable int custId, @RequestBody Product p) throws AlreadyExistsException {
 		String s = custServ.addWishlist(custId, p);
 		return new ResponseEntity<String>(s, HttpStatus.OK);
+	}
+	
+	@DeleteMapping("/customer/{custId}/deleteorder/{orderId}")
+	public ResponseEntity<String> removeFromProductList(@PathVariable int custId, @PathVariable int orderId)
+			throws NotFoundException {
+		String resp = custServ.deleteOrder(custId, orderId);
+		return new ResponseEntity<String>(resp, HttpStatus.OK);
 	}
 }
