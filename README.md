@@ -6,25 +6,28 @@
 
 1) Product (int prodId, String prodName, String category, double price, double rating)
 
-1) Seller (int sellerId, String sellerName, String userName, String password, double rating, List<Product> product)
+2) Seller (int sellerId, String sellerName, String userName, String password, double rating, List<Product> product)
 
-1) Customer (int custId, String custName, String userName, String password, String address, List<Product> wishlist, List<Orders> custOrders) ; Methods (void addToWishlist(Product p), addToCustOrders(Orders o))
+3) Customer (int custId, String custName, String userName, String password, String address, List<Product> wishlist, List<Orders> custOrders) ; Methods (void addToWishlist(Product p), addToCustOrders(Orders o))
 
-1) Orders (int orderId, Customer customer, Seller seller, Product product, LocalDate deliveryDate)
+4) Orders (int orderId, Customer customer, Seller seller, Product product, LocalDate deliveryDate)
 
-1) Feedback (int feedbackId, Orders order, double rating, String feedback, LocalDate dateCreated)
+5) Feedback (int feedbackId, Orders order, double rating, String feedback, LocalDate dateCreated)
 
-1) Feedback Response (int feedbackId, double feedbackRating, String feedback, LocalDate dateCreated)
+6) Feedback Response (int feedbackId, double feedbackRating, String feedback, LocalDate dateCreated)
+
+### Mapping
+  ![image](https://user-images.githubusercontent.com/59263190/196599713-15cdd0eb-5962-4814-ab1d-5fd3c2bcf035.png)
 
 
 ### Modules / Controllers:
 
 1) Product
-1) Seller
-1) Customer
-1) Login
-1) Orders
-1) Feedback
+2) Seller
+3) Customer
+4) Login
+5) Orders
+6) Feedback
 
 ### Service Implementation :
 
