@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spring-boot-ecommerce
+  namespace: default
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: spring-boot-ecommerce
+  template:
+    metadata:
+      name: spring-boot-ecommerce
+      labels:
+        app: spring-boot-ecommerce
+    spec:
+      containers:
+      - name: spring-boot-ecommerce
+        env:
+          - name: POSTGRES_USER
+            valueFrom:
+              configMapKeyRef:
+                name: postgres-config
+                key: postgres_user
+          - name: POSTGRES_PASSWORD
+            valueFrom:
+              configMapKeyRef:
+                name: postgres-config
+                key: postgres_password
+          - name: POSTGRES_HOST
+            valueFrom:
+              configMapKeyRef:
+                name: hostname-config
+                key: postgres_host
+        image: gcr.io/cg-gcp-jee-pt-09-07-22-160/e-commerce:v6

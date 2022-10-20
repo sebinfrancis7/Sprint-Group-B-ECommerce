@@ -22,6 +22,11 @@ public class ProductController {
 	@Autowired
 	private ProductService productServ;
 
+    @GetMapping("/")
+    public ResponseEntity<String> landingPage(){
+        return new ResponseEntity<String>("Welcome to E-Commerce Application - Group : B", HttpStatus.OK);
+    }
+
 	@PostMapping("/save/product")
 	public ResponseEntity<String> saveProduct(@RequestBody Product product) throws Exception {
 		Product prod = productServ.saveProduct(product);
